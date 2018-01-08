@@ -21,7 +21,7 @@ is important to install the exact versions as given above.
 
 The easiest, and recommend, way of installing Iris and its dependencies is via
 the OCaml package manager opam (1.2.2 or newer). You first have to add the Coq
-opam repository:
+opam repository if you have not already done so earlier:
 
     opam repo add coq-released https://coq.inria.fr/opam/released
 
@@ -31,7 +31,12 @@ Then you can do `opam install coq-iris`.
 
 If you are unable to use opam, you can also build Iris from source. For this,
 make sure to `git checkout` the correct versions, and run `make; make install`
-for Ssreflect, Coq-std++ and Iris.
+for all of:
+
+* ssreflect: <https://github.com/math-comp/math-comp/archive/mathcomp-1.6.4.tar.gz>
+  (`cd mathcomp/ssreflect` to only install what is needed)
+* std++: <https://gitlab.mpi-sws.org/robbertkrebbers/coq-stdpp/repository/coq-stdpp-1.1.0/archive.tar.gz>
+* Iris: <https://gitlab.mpi-sws.org/FP/iris-coq/repository/iris-3.1.0/archive.tar.gz>
 
 ## Compiling the exercises
 
