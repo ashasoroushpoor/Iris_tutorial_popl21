@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 *.pdf
 *.aux
 *.log
@@ -29,5 +26,4 @@ _*_.tex
 *.glob
 *.v.d
 *.vio
-hands-on/Makefile.coq*
->>>>>>> c37af97... Add .gitignore.
+Makefile.coq*
