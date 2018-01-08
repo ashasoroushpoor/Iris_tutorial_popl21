@@ -1,1 +1,33 @@
+<<<<<<< HEAD
 
+=======
+*.pdf
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.txss
+*.thm
+*.toc
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+_*_.tex
+**/auto/*.el
+\#*\#
+.\#*
+*~
+*.bak
+*.zip
+*.nav
+*.snm
+*.vrb
+*.fdb_latexmk
+*.fls
+*.vo
+*.glob
+*.v.d
+*.vio
+hands-on/Makefile.coq*
+>>>>>>> c37af97... Add .gitignore.
