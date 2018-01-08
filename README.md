@@ -1,5 +1,12 @@
 # The Iris tutorial @ POPL'18
 
+This tutorial comes in two versions:
+
+- The folder `exercises`: skeletons of the exercises with parts left `admit`ted.
+- The folder `solutions`: the exercises together with their solutions.
+
+## Dependencies
+
 For the tutorial material you need to have the following dependencies installed:
 
 - Coq 8.6.1 / 8.7.0 / 8.7.1
