@@ -34,7 +34,7 @@ make sure to `git checkout` the correct versions, and run `make; make install`
 for all of:
 
 * ssreflect: <https://github.com/math-comp/math-comp/archive/mathcomp-1.6.4.tar.gz>
-  (`cd mathcomp/ssreflect` to only install what is needed)
+  (`cd mathcomp/ssreflect` to only compile and install what is needed)
 * std++: <https://gitlab.mpi-sws.org/robbertkrebbers/coq-stdpp/repository/coq-stdpp-1.1.0/archive.tar.gz>
 * Iris: <https://gitlab.mpi-sws.org/FP/iris-coq/repository/iris-3.1.0/archive.tar.gz>
 
