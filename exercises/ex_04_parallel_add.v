@@ -39,7 +39,9 @@ Section proof1.
     { (* exercise *)
       admit. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, True%I) (λ _, True%I)).
+    (*wp_apply (wp_par (λ _, True%I) (λ _, True%I)).*)
+    (* FIXME previous tactic fails (replaced by the following two). *)
+    wp_bind (_ ||| _)%E. iApply (wp_par (λ _, True%I) (λ _, True%I)).
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr %]".
       wp_seq. wp_load. wp_op. wp_store.
       wp_apply (release_spec with "[Hr $Hl]"); [|done].
@@ -108,7 +110,11 @@ Section proof2.
     { (* exercise *)
       admit. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, own γ1 (◯ Excl' 2)) (λ _, own γ2 (◯ Excl' 2))
+    (*wp_apply (wp_par (λ _, own γ1 (◯ Excl' 2)) (λ _, own γ2 (◯ Excl' 2))
+                with "[Hγ1◯] [Hγ2◯]").*)
+    (* FIXME previous tactic fails (replaced by the following two). *)
+    wp_bind (_ ||| _)%E.
+    iApply (wp_par (λ _, own γ1 (◯ Excl' 2)) (λ _, own γ2 (◯ Excl' 2))
                 with "[Hγ1◯] [Hγ2◯]").
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n1 n2) "(Hr & Hγ1● & Hγ2●)".
       wp_seq. wp_load. wp_op. wp_store.
@@ -142,7 +148,11 @@ Section proof3.
     { (* exercise *)
       admit. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, own γ (◯!{1/2} 2%nat)) (λ _, own γ (◯!{1/2} 2%nat))
+    (*wp_apply (wp_par (λ _, own γ (◯!{1/2} 2%nat)) (λ _, own γ (◯!{1/2} 2%nat))
+                with "[Hγ1◯] [Hγ2◯]").*)
+    (* FIXME previous tactic fails (replaced by the following two). *)
+    wp_bind (_ ||| _)%E.
+    iApply (wp_par (λ _, own γ (◯!{1/2} 2%nat)) (λ _, own γ (◯!{1/2} 2%nat))
                 with "[Hγ1◯] [Hγ2◯]").
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr Hγ●]".
       wp_seq. wp_load. wp_op. wp_store.
