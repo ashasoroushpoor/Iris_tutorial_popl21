@@ -25,7 +25,7 @@ opam repository if you have not already done so earlier:
 
     opam repo add coq-released https://coq.inria.fr/opam/released
 
-Then you can do `opam install coq-iris.3.1`.
+Then you can do `opam install coq-iris.3.1.0`.
 
 ## Installing Iris from source
 
