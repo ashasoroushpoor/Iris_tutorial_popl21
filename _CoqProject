@@ -1,0 +1,12 @@
+-Q . tutorial
+-arg -w -arg -notation-overridden,-redundant-canonical-projection,-several-object-files
+exercises/ex_01_swap.v
+exercises/ex_02_sumlist.v
+exercises/ex_03_spinlock.v
+exercises/ex_04_parallel_add.v
+exercises/ex_05_parallel_add_mul.v
+solutions/ex_01_swap.v
+solutions/ex_02_sumlist.v
+solutions/ex_03_spinlock.v
+solutions/ex_04_parallel_add.v
+solutions/ex_05_parallel_add_mul.v
