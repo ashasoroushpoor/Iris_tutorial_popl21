@@ -11,7 +11,7 @@ Contrary to the earlier exercises, this exercise is nearly entirely open.
 From iris.algebra Require Import auth frac_auth.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import proofmode notation lib.par.
-From tutorial Require Import ex_03_spinlock.
+From exercises Require Import ex_03_spinlock.
 
 Definition parallel_add_mul : expr :=
   let: "r" := ref #0 in

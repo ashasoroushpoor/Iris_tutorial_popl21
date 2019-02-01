@@ -1,4 +1,5 @@
--Q . tutorial
+-Q exercises exercises
+-Q solutions solutions
 -arg -w -arg -notation-overridden,-redundant-canonical-projection,-several-object-files
 exercises/ex_01_swap.v
 exercises/ex_02_sumlist.v
