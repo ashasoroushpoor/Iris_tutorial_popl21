@@ -9,7 +9,7 @@ This tutorial comes in two versions:
 
 For the tutorial material you need to have the following dependencies installed:
 
-- Coq 8.6.1 / 8.7.0 / 8.7.1
+- Coq 8.7.2 / 8.8.2
 - Ssreflect 1.6.4
 - Coq-std++ 1.1
 - Iris 3.1
