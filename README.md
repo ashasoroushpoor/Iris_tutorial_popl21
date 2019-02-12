@@ -30,8 +30,7 @@ Then you can do `opam install coq-iris.3.1.0`.
 ## Installing Iris from source
 
 If you are unable to use opam, you can also build Iris from source. For this,
-make sure to `git checkout` the correct versions, and run `make; make install`
-for all of:
+run `make; make install` for all of:
 
 * ssreflect: <https://github.com/math-comp/math-comp/archive/mathcomp-1.7.0.tar.gz>
   (`cd mathcomp/ssreflect` to only compile and install what is needed)
