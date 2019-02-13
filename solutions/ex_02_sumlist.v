@@ -38,14 +38,14 @@ Definition sum_inc_list : val := λ: "n" "l",
 
 (** A function that maps a function over all elements of a list: *)
 Definition map_list : val :=
-  rec: "inc_list" "f" "l" :=
+  rec: "map_list" "f" "l" :=
     match: "l" with
       NONE => #()
     | SOME "p" =>
       let: "x" := Fst !"p" in
       let: "l" := Snd !"p" in
       "p" <- ("f" "x", "l");;
-      "inc_list" "f" "l"
+      "map_list" "f" "l"
     end.
 
 Section proof.
