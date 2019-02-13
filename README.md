@@ -9,10 +9,8 @@ This tutorial comes in two versions:
 
 For the tutorial material you need to have the following dependencies installed:
 
-- Coq 8.6.1 / 8.7.2 / 8.8.2
-- Ssreflect 1.7.0
-- Coq-std++ 1.1
-- Iris (latest version)
+- Coq 8.7.2 / 8.8.2
+- A development version of [Iris](https://gitlab.mpi-sws.org/iris/iris)
 
 *Note:* the tutorial material will not work with earlier versions of Iris, it
 is important to install the exact versions as given above.
@@ -25,19 +23,9 @@ opam repository and the Iris development repository (if you have not already
 done so earlier):
 
     opam repo add coq-released https://coq.inria.fr/opam/released
-    opam repo add iris-dev https://gitlab.mpi-sws.org/FP/opam-dev.git
+    opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git
 
-Then you can do `opam install coq-iris`.
-
-## Installing Iris from source
-
-If you are unable to use opam, you can also build Iris from source. For this,
-run `make; make install` for all of:
-
-* ssreflect: <https://github.com/math-comp/math-comp/archive/mathcomp-1.7.0.tar.gz>
-  (`cd mathcomp/ssreflect` to only compile and install what is needed)
-* std++: <https://gitlab.mpi-sws.org/iris/stdpp/repository/coq-stdpp-1.1.0/archive.tar.gz>
-* Iris: <https://gitlab.mpi-sws.org/FP/iris-coq/repository/iris-3.1.0/archive.tar.gz>
+Then you can do `make build-dep` to install exactly the right version of Iris.
 
 ## Compiling the exercises
 
