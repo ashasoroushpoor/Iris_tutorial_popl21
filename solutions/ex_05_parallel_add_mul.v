@@ -77,7 +77,7 @@ Section proof.
     wp_apply (newlock_spec (parallel_add_mul_inv r γ1 γ2) with "[Hr Hγ1● Hγ2●]").
     { iExists false, false, 0. iFrame. done. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, own γ1 (◯ Excl' true)) (λ _, own γ2 (◯ Excl' true))
+    wp_apply (par_spec (λ _, own γ1 (◯ Excl' true)) (λ _, own γ2 (◯ Excl' true))
                 with "[Hγ1◯] [Hγ2◯]").
     - wp_apply (acquire_spec with "Hl").
       iDestruct 1 as (b1 b2 z) "(Hγ1● & Hγ2● & Hr & %)".

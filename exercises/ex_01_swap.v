@@ -55,7 +55,7 @@ Lemma swap_spec x y v1 v2 :
 Proof.
   iIntros (Φ) "[Hx Hy] Post".
   unfold swap.
-  wp_lam. wp_lam.
+  wp_lam. wp_let.
   wp_load. wp_let.
   wp_load. wp_store.
   wp_store.
@@ -70,13 +70,13 @@ Lemma swap_spec_2 x y v1 v2 :
   {{{ x ↦ v1 ∗ y ↦ v2 }}} swap #x #y {{{ RET #(); x ↦ v2 ∗ y ↦ v1 }}}.
 Proof.
   iIntros (Φ) "[??] Post".
-  wp_lam. wp_lam. wp_load. wp_let. wp_load. wp_store. wp_store.
+  wp_lam. wp_let. wp_load. wp_let. wp_load. wp_store. wp_store.
   iApply "Post". iFrame.
 Qed.
 
 (* We can further automate the lemma by defining a simple Ltac tactic for
 symbolic executing. *)
-Ltac wp_exec := repeat (wp_pure _ || wp_load || wp_store).
+Ltac wp_exec := repeat (wp_lam || wp_pure _ || wp_load || wp_store).
 
 (* This tactic repeatedly tries to symbolically execute pure redexes, loads and
 stores. It makes use of the tactic [wp_pure t], which tries to find the redex
@@ -100,7 +100,7 @@ Proof.
   (* As in Coq, the IPM introduction pattern (p1 & p2 & .. & pn) ] is syntactic
   sugar for [ [p1 [p2 [... pn]]] ]. *)
   iIntros (Φ) "(Hx & Hy & Hz) Post".
-  unfold rotate_r. do 3 wp_lam.
+  unfold rotate_r. wp_lam. do 2 wp_let.
   wp_bind (swap _ _).
   iApply (swap_spec with "[Hy Hz]").
   { iFrame. }
@@ -117,7 +117,7 @@ Lemma rotate_r_spec_again x y z v1 v2 v3 :
     rotate_r #x #y #z
   {{{ RET #(); x ↦ v3 ∗ y ↦ v1 ∗ z ↦ v2 }}}.
 Proof.
-  iIntros (Φ) "(Hx & Hy & Hz) Post". do 3 wp_lam.
+  iIntros (Φ) "(Hx & Hy & Hz) Post". wp_lam.
   (* We can shorten the above a bit: Instead of using the [iApply] tactic, we
   can use [wp_apply] which automatically uses [wp_bind] first. Also, it strips
   the later [▷] by calling [iNext] afterwards. *)

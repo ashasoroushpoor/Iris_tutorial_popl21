@@ -156,7 +156,7 @@ Lemma sum_inc_list_spec n l v :
     sum_inc_list #n v
   {{{ RET #(sum_list_coq (map (Z.add n) l)); is_list (map (Z.add n) l) v }}}.
 Proof.
-  iIntros (Φ) "Hl Post". do 2 wp_let.
+  iIntros (Φ) "Hl Post". wp_lam. wp_let.
   wp_apply (inc_list_spec_induction with "Hl"); iIntros "Hl /="; wp_seq.
   wp_apply (sum_list_spec_induction with "Hl"); auto.
 Qed.
