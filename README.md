@@ -38,8 +38,9 @@ work on exercise 4 and 5.
 
 ## Documentation
 
-The file `ProofMode.md` in the tutorial material (which can also be found in the
-root of the Iris repository) contains a list of the Iris Proof Mode tactics.
+The file
+[`ProofMode.md`](https://gitlab.mpi-sws.org/iris/iris/blob/master/ProofMode.md)
+in the Iris repository contains a list of the Iris Proof Mode tactics.
 
 If you would like to know more about Iris, we recommend to take a look at:
 
