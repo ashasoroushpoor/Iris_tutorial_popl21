@@ -46,7 +46,7 @@ Lemma swap_spec x y v1 v2 :
      Which is logically equivalent to [ P -∗ WP e {{ x, x = v ∗ Q }} ]
 
      In practice, the "Texan triple" is not more difficult to prove, but usually
-     easier to use other proofs, because the post-condition does not have to
+     easier to use in other proofs, because the post-condition does not have to
      syntactically match [Q]. Using this way of stating specifications, the
      consequence and framing rule is implicitly applied on the post-condition.
 
