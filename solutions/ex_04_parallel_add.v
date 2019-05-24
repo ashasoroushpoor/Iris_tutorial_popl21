@@ -3,7 +3,7 @@ In this exercise we use the spin-lock from the previous exercise to implement
 the running example during the lecture of the tutorial: proving that when two
 threads increase a reference that's initially zero by two, the result is four.
 *)
-From iris.algebra Require Import auth frac_auth.
+From iris.algebra Require Import auth frac_auth excl.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import lib.par proofmode notation.
 From solutions Require Import ex_03_spinlock.
@@ -79,7 +79,9 @@ Section proof2.
   Lemma ghost_var_alloc n :
     (|==> ∃ γ, own γ (● (Excl' n)) ∗ own γ (◯ (Excl' n)))%I.
   Proof.
-    iMod (own_alloc (● (Excl' n) ⋅ ◯ (Excl' n))) as (γ) "[??]"; by eauto with iFrame.
+    iMod (own_alloc (● (Excl' n) ⋅ ◯ (Excl' n))) as (γ) "[??]".
+    - by apply auth_both_valid.
+    - by eauto with iFrame.
   Qed.
 
   Lemma ghost_var_agree γ n m :
@@ -87,7 +89,7 @@ Section proof2.
   Proof.
     iIntros "Hγ● Hγ◯".
     by iDestruct (own_valid_2 with "Hγ● Hγ◯")
-      as %[<-%Excl_included%leibniz_equiv _]%auth_valid_discrete_2.
+      as %[<-%Excl_included%leibniz_equiv _]%auth_both_valid.
   Qed.
 
   Lemma ghost_var_update γ n' n m :
@@ -150,7 +152,8 @@ Section proof3.
   Proof.
     iIntros (Φ) "_ Post".
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
-    iMod (own_alloc (●! 0%nat ⋅ ◯! 0%nat)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]"; [done|].
+    iMod (own_alloc (●! 0%nat ⋅ ◯! 0%nat)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
+    { by apply auth_both_valid. }
     wp_apply (newlock_spec (parallel_add_inv_3 r γ) with "[Hr Hγ●]").
     { (* exercise *) iExists 0%nat. iFrame. }
     iIntros (l) "#Hl". wp_let.

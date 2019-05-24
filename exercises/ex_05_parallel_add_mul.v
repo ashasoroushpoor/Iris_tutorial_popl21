@@ -8,7 +8,7 @@ first, the outcome is either 2 or 4.
 
 Contrary to the earlier exercises, this exercise is nearly entirely open.
 *)
-From iris.algebra Require Import auth frac_auth.
+From iris.algebra Require Import auth frac_auth excl.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import proofmode notation lib.par.
 From exercises Require Import ex_03_spinlock.
@@ -33,7 +33,9 @@ Section proof.
   Lemma ghost_var_alloc b :
     (|==> ∃ γ, own γ (● (Excl' b)) ∗ own γ (◯ (Excl' b)))%I.
   Proof.
-    iMod (own_alloc (● (Excl' b) ⋅ ◯ (Excl' b))) as (γ) "[??]"; by eauto with iFrame.
+    iMod (own_alloc (● (Excl' b) ⋅ ◯ (Excl' b))) as (γ) "[??]".
+    - by apply auth_both_valid.
+    - by eauto with iFrame.
   Qed.
 
   Lemma ghost_var_agree γ b c :
@@ -41,7 +43,7 @@ Section proof.
   Proof.
     iIntros "Hγ● Hγ◯".
     by iDestruct (own_valid_2 with "Hγ● Hγ◯")
-      as %[<-%Excl_included%leibniz_equiv _]%auth_valid_discrete_2.
+      as %[<-%Excl_included%leibniz_equiv _]%auth_both_valid.
   Qed.
 
   Lemma ghost_var_update γ b' b c :
