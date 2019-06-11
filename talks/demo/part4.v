@@ -54,23 +54,23 @@ Section proof2.
   (* Rules for fractional ghost variables
      (proved from generic principles) *)
   Lemma frac_auth_alloc n :
-    (|==> ∃ γ, own γ (●! n) ∗ own γ (◯!{1} n))%I.
+    (|==> ∃ γ, own γ (●F n) ∗ own γ (◯F{1} n))%I.
   Proof.
-    by iMod (own_alloc (●! n ⋅ ◯! n))
+    by iMod (own_alloc (●F n ⋅ ◯F n))
       as (γ) "[??]"; eauto with iFrame.
   Qed.
 
   Lemma frac_auth_update n n1 n2 q γ :
-    own γ (●! n1) -∗
-    own γ (◯!{q} n2) -∗ |==>
-    own γ (●! (n1 + n)%nat) ∗ own γ (◯!{q} (n2 + n)%nat).
+    own γ (●F n1) -∗
+    own γ (◯F{q} n2) -∗ |==>
+    own γ (●F (n1 + n)%nat) ∗ own γ (◯F{q} (n2 + n)%nat).
   Proof.
     iIntros "H H'". iMod (own_update_2 with "H H'") as "[$ $]"; last done.
     apply frac_auth_update, nat_local_update. lia.
   Qed.
 
   Lemma frac_auth_agree n n' γ :
-    own γ (●! n) -∗ own γ (◯!{1} n') -∗ ⌜n = n'⌝.
+    own γ (●F n) -∗ own γ (◯F{1} n') -∗ ⌜n = n'⌝.
   Proof.
     iIntros "H H'".
     by iDestruct (own_valid_2 with "H H'") as %->%frac_auth_agreeL.
@@ -78,13 +78,13 @@ Section proof2.
 
   (* The invariant that we use *)
   Definition proof2_inv (γ : gname) (l : loc) : iProp Σ :=
-    (∃ n : nat, own γ (●! n) ∗ l ↦ #n)%I.
+    (∃ n : nat, own γ (●F n) ∗ l ↦ #n)%I.
 
   (* Proof of the threads *)
   Lemma par_inc_FAA_spec n n' γ l q :
-    {{{ inv N (proof2_inv γ l) ∗ own γ (◯!{q} n) }}}
+    {{{ inv N (proof2_inv γ l) ∗ own γ (◯F{q} n) }}}
       FAA #l #n'
-    {{{ m, RET #m; own γ (◯!{q} (n + n'))%nat }}}.
+    {{{ m, RET #m; own γ (◯F{q} (n + n'))%nat }}}.
   Proof.
     iIntros (Φ) "[#Hinv Hγ] Post". iInv N as (m) ">[Hauth Hl]" "Hclose".
     wp_faa.
@@ -103,8 +103,8 @@ Section proof2.
     iDestruct "Hγ" as "[Hγ1 Hγ2]".
     iMod (inv_alloc _ _ (proof2_inv γ l) with "[Hl Hauth]") as "#Hinv".
     { iNext. iExists 0%nat. iFrame. }
-    wp_apply (wp_par (λ _, own γ (◯!{1/2} 2%nat))
-                     (λ _, own γ (◯!{1/2} 2%nat)) with "[Hγ1] [Hγ2]").
+    wp_apply (wp_par (λ _, own γ (◯F{1/2} 2%nat))
+                     (λ _, own γ (◯F{1/2} 2%nat)) with "[Hγ1] [Hγ2]").
     - iApply (par_inc_FAA_spec 0 2 with "[$]"); auto.
     - iApply (par_inc_FAA_spec 0 2 with "[$]"); auto.
     - iIntros (v1 v2) "[Hγ1 Hγ2] !>". iCombine "Hγ1 Hγ2" as "Hγ". simpl.
@@ -117,9 +117,9 @@ Section proof2.
   Qed.
 
   Lemma par_incN_helper_spec n γ l q :
-    {{{ inv N (proof2_inv γ l) ∗ own γ (◯!{q} 0%nat) }}}
+    {{{ inv N (proof2_inv γ l) ∗ own γ (◯F{q} 0%nat) }}}
       par_incN_helper #n #l
-    {{{ v, RET v; own γ (◯!{q} (n * 2))%nat }}}.
+    {{{ v, RET v; own γ (◯F{q} (n * 2))%nat }}}.
   Proof.
     iIntros (Φ) "[#? Hγ] Post /=".
     iInduction n as [|n] "IH" forall (q Φ).
@@ -127,8 +127,8 @@ Section proof2.
     rewrite Nat2Z.inj_succ. do 2 wp_let.
     wp_op. case_bool_decide; first lia. wp_if.
     iDestruct "Hγ" as "[Hγ1 Hγ2]".
-    wp_apply (wp_par (λ _, own γ (◯!{q/2} 2%nat))
-                     (λ _, own γ (◯!{q/2} (n * 2)%nat)) with "[Hγ1] [Hγ2]").
+    wp_apply (wp_par (λ _, own γ (◯F{q/2} 2%nat))
+                     (λ _, own γ (◯F{q/2} (n * 2)%nat)) with "[Hγ1] [Hγ2]").
     - iApply (par_inc_FAA_spec 0 2 with "[$]"); auto.
     - wp_op. rewrite (_ : Z.succ n - 1 = n); last lia.
       iApply ("IH" with "Hγ2"); auto.

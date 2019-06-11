@@ -9,5 +9,5 @@ build: [make "-j%{jobs}%"]
 install: [] # This repo does not install
 remove: []
 depends: [
-  "coq-iris" { (= "dev.2019-05-24.0.c9984c7f") | (= "dev") }
+  "coq-iris" { (= "dev.2019-06-11.8.a51fa3cf") | (= "dev") }
 ]

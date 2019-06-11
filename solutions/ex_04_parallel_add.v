@@ -144,7 +144,7 @@ Section proof3.
   Context `{!heapG Σ, !spawnG Σ, !inG Σ (frac_authR natR)}.
 
   Definition parallel_add_inv_3 (r : loc) (γ : gname) : iProp Σ :=
-    (∃ n : nat, r ↦ #n ∗ own γ (●! n))%I.
+    (∃ n : nat, r ↦ #n ∗ own γ (●F n))%I.
 
   (** *Exercise*: finish the missing cases of the proof. *)
   Lemma parallel_add_spec_3 :
@@ -152,16 +152,16 @@ Section proof3.
   Proof.
     iIntros (Φ) "_ Post".
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
-    iMod (own_alloc (●! 0%nat ⋅ ◯! 0%nat)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
+    iMod (own_alloc (●F 0%nat ⋅ ◯F 0%nat)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
     { by apply auth_both_valid. }
     wp_apply (newlock_spec (parallel_add_inv_3 r γ) with "[Hr Hγ●]").
     { (* exercise *) iExists 0%nat. iFrame. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, own γ (◯!{1/2} 2%nat)) (λ _, own γ (◯!{1/2} 2%nat))
+    wp_apply (wp_par (λ _, own γ (◯F{1/2} 2%nat)) (λ _, own γ (◯F{1/2} 2%nat))
                 with "[Hγ1◯] [Hγ2◯]").
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr Hγ●]".
       wp_seq. wp_load. wp_op. wp_store.
-      iMod (own_update_2 _ _ _ (●! (n+2) ⋅ ◯!{1/2}2)%nat with "Hγ● Hγ1◯") as "[Hγ● Hγ1◯]".
+      iMod (own_update_2 _ _ _ (●F (n+2) ⋅ ◯F{1/2}2)%nat with "Hγ● Hγ1◯") as "[Hγ● Hγ1◯]".
       { rewrite (comm plus).
         by apply frac_auth_update, (op_local_update_discrete n 0 2)%nat. }
       wp_apply (release_spec with "[$Hl Hr Hγ●]"); [|by auto].
@@ -169,7 +169,7 @@ Section proof3.
     - (* exercise *)
       wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr Hγ●]".
       wp_seq. wp_load. wp_op. wp_store.
-      iMod (own_update_2 _ _ _ (●! (n+2) ⋅ ◯!{1/2}2)%nat with "Hγ● Hγ2◯") as "[Hγ● Hγ2◯]".
+      iMod (own_update_2 _ _ _ (●F (n+2) ⋅ ◯F{1/2}2)%nat with "Hγ● Hγ2◯") as "[Hγ● Hγ2◯]".
       { rewrite (comm plus).
         by apply frac_auth_update, (op_local_update_discrete n 0 2)%nat. }
       wp_apply (release_spec with "[- $Hl Hγ2◯]"); [|by auto].
