@@ -62,12 +62,12 @@ Whereas we previously abstracted over an arbitrary "ghost state" [Σ] in the
 proofs, we now need to make sure that we can use integer ghost variables. For
 this, we add the type class constraint:
 
-  inG Σ (authR (optionUR (exclR ZC)))
+  inG Σ (authR (optionUR (exclR ZO)))
 
 *)
 
 Section proof2.
-  Context `{!heapG Σ, !spawnG Σ, !inG Σ (authR (optionUR (exclR ZC)))}.
+  Context `{!heapG Σ, !spawnG Σ, !inG Σ (authR (optionUR (exclR ZO)))}.
 
   Definition parallel_add_inv_2 (r : loc) (γ1 γ2 : gname) : iProp Σ :=
     (∃ n1 n2 : Z, r ↦ #(n1 + n2)
