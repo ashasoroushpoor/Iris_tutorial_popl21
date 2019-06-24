@@ -27,6 +27,8 @@ multiple threads could try to acquire the lock at the same time, we use the
 if the value of the reference [l] is equal to [v], and if so, changes it into
 [w] and returns [true]. If the value of [l] is unequal to [v], it leaves the
 value of [l] as if, and returns [false].
+[CAS l v w] is actually a short-hand for [Snd (CmpXchg l v w)], where [CmpXchg]
+also returns the old value in [l] before the operation took place.
 *)
 
 (**
@@ -83,6 +85,9 @@ Section proof.
   Proof.
     iIntros (Φ) "#Hl HΦ". iDestruct "Hl" as (l ->) "#Hinv".
     wp_rec.
+    (** We have to "focus on" the atomic [CmpXchg] operation before we can
+    open the invariant. *)
+    wp_bind (CmpXchg _ _ _).
     (** Using the tactic [iInv] we open the invariant. *)
     iInv lockN as (b) "[Hl HR]" "Hclose".
     (** The post-condition of the WP is augmented with an *update* modality
@@ -94,13 +99,13 @@ Section proof.
 
     *)
     destruct b.
-    - wp_cas_fail. iMod ("Hclose" with "[Hl]") as "_".
+    - wp_cmpxchg_fail. iMod ("Hclose" with "[Hl]") as "_".
       { iNext. iExists true. iFrame. }
-      iModIntro. iApply ("HΦ" $! false). done.
-    - (* Exercise *) wp_cas_suc.
+      iModIntro. wp_proj. iApply ("HΦ" $! false). done.
+    - (* Exercise *) wp_cmpxchg_suc.
       iMod ("Hclose" with "[Hl]") as "_".
       { iNext. iExists true. iFrame. }
-      iModIntro. by iApply ("HΦ" $! true with "HR").
+      iModIntro. wp_proj. by iApply ("HΦ" $! true with "HR").
   Qed.
 
   (** *Exercise*: prove the spec of [acquire]. Since [acquire] is a recursive
