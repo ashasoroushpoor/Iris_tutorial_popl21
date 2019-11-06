@@ -8,7 +8,7 @@ first, the outcome is either 2 or 4.
 
 Contrary to the earlier exercises, this exercise is nearly entirely open.
 *)
-From iris.algebra Require Import auth frac_auth excl.
+From iris.algebra Require Import excl_auth frac_auth.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import proofmode notation lib.par.
 From exercises Require Import ex_03_spinlock.
@@ -26,33 +26,31 @@ Definition parallel_add_mul : expr :=
 
 (** In this proof we will make use of Boolean ghost variables. *)
 Section proof.
-  Context `{!heapG Σ, !spawnG Σ, !inG Σ (authR (optionUR (exclR boolO)))}.
+  Context `{!heapG Σ, !spawnG Σ, !inG Σ (excl_authR boolO)}.
 
   (** The same helping lemmas for ghost variables that we have already seen in
   the previous exercise. *)
   Lemma ghost_var_alloc b :
-    (|==> ∃ γ, own γ (● (Excl' b)) ∗ own γ (◯ (Excl' b)))%I.
+    (|==> ∃ γ, own γ (●E b) ∗ own γ (◯E b))%I.
   Proof.
-    iMod (own_alloc (● (Excl' b) ⋅ ◯ (Excl' b))) as (γ) "[??]".
-    - by apply auth_both_valid.
+    iMod (own_alloc (●E b ⋅ ◯E b)) as (γ) "[??]".
+    - by apply excl_auth_valid.
     - by eauto with iFrame.
   Qed.
 
   Lemma ghost_var_agree γ b c :
-    own γ (● (Excl' b)) -∗ own γ (◯ (Excl' c)) -∗ ⌜ b = c ⌝.
+    own γ (●E b) -∗ own γ (◯E c) -∗ ⌜ b = c ⌝.
   Proof.
     iIntros "Hγ● Hγ◯".
-    by iDestruct (own_valid_2 with "Hγ● Hγ◯")
-      as %[<-%Excl_included%leibniz_equiv _]%auth_both_valid.
+    by iDestruct (own_valid_2 with "Hγ● Hγ◯") as %<-%excl_auth_agreeL.
   Qed.
 
   Lemma ghost_var_update γ b' b c :
-    own γ (● (Excl' b)) -∗ own γ (◯ (Excl' c)) ==∗
-      own γ (● (Excl' b')) ∗ own γ (◯ (Excl' b')).
+    own γ (●E b) -∗ own γ (◯E c) ==∗ own γ (●E b') ∗ own γ (◯E b').
   Proof.
     iIntros "Hγ● Hγ◯".
-    iMod (own_update_2 _ _ _ (● Excl' b' ⋅ ◯ Excl' b') with "Hγ● Hγ◯") as "[$$]".
-    { by apply auth_update, option_local_update, exclusive_local_update. }
+    iMod (own_update_2 _ _ _ (●E b' ⋅ ◯E b') with "Hγ● Hγ◯") as "[$$]".
+    { by apply excl_auth_update. }
     done.
   Qed.
 

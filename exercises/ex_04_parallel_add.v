@@ -3,7 +3,7 @@ In this exercise we use the spin-lock from the previous exercise to implement
 the running example during the lecture of the tutorial: proving that when two
 threads increase a reference that's initially zero by two, the result is four.
 *)
-From iris.algebra Require Import auth frac_auth excl.
+From iris.algebra Require Import excl_auth frac_auth.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import lib.par proofmode notation.
 From exercises Require Import ex_03_spinlock.
@@ -58,43 +58,41 @@ Whereas we previously abstracted over an arbitrary "ghost state" [Σ] in the
 proofs, we now need to make sure that we can use integer ghost variables. For
 this, we add the type class constraint:
 
-  inG Σ (authR (optionUR (exclR ZO)))
+  inG Σ (excl_authR ZO)
 
 *)
 
 Section proof2.
-  Context `{!heapG Σ, !spawnG Σ, !inG Σ (authR (optionUR (exclR ZO)))}.
+  Context `{!heapG Σ, !spawnG Σ, !inG Σ (excl_authR ZO)}.
 
   Definition parallel_add_inv_2 (r : loc) (γ1 γ2 : gname) : iProp Σ :=
     (∃ n1 n2 : Z, r ↦ #(n1 + n2)
-            ∗ own γ1 (● (Excl' n1)) ∗ own γ2 (● (Excl' n2)))%I.
+            ∗ own γ1 (●E n1) ∗ own γ2 (●E n2))%I.
 
   (** Some helping lemmas for ghost state that we need in the proof. In actual
   proofs we tend to inline simple lemmas like these, but they are here to
   make things easier to understand. *)
   Lemma ghost_var_alloc n :
-    (|==> ∃ γ, own γ (● (Excl' n)) ∗ own γ (◯ (Excl' n)))%I.
+    (|==> ∃ γ, own γ (●E n) ∗ own γ (◯E n))%I.
   Proof.
-    iMod (own_alloc (● (Excl' n) ⋅ ◯ (Excl' n))) as (γ) "[??]".
-    - by apply auth_both_valid.
+    iMod (own_alloc (●E n ⋅ ◯E n)) as (γ) "[??]".
+    - by apply excl_auth_valid.
     - by eauto with iFrame.
   Qed.
 
   Lemma ghost_var_agree γ n m :
-    own γ (● (Excl' n)) -∗ own γ (◯ (Excl' m)) -∗ ⌜ n = m ⌝.
+    own γ (●E n) -∗ own γ (◯E m) -∗ ⌜ n = m ⌝.
   Proof.
     iIntros "Hγ● Hγ◯".
-    by iDestruct (own_valid_2 with "Hγ● Hγ◯")
-      as %[<-%Excl_included%leibniz_equiv _]%auth_both_valid.
+    by iDestruct (own_valid_2 with "Hγ● Hγ◯") as %?%excl_auth_agreeL.
   Qed.
 
   Lemma ghost_var_update γ n' n m :
-    own γ (● (Excl' n)) -∗ own γ (◯ (Excl' m)) ==∗
-      own γ (● (Excl' n')) ∗ own γ (◯ (Excl' n')).
+    own γ (●E n) -∗ own γ (◯E m) ==∗ own γ (●E n') ∗ own γ (◯E n').
   Proof.
     iIntros "Hγ● Hγ◯".
-    iMod (own_update_2 _ _ _ (● Excl' n' ⋅ ◯ Excl' n') with "Hγ● Hγ◯") as "[$$]".
-    { by apply auth_update, option_local_update, exclusive_local_update. }
+    iMod (own_update_2 _ _ _ (●E n' ⋅ ◯E n') with "Hγ● Hγ◯") as "[$$]".
+    { by apply excl_auth_update. }
     done.
   Qed.
 
@@ -110,7 +108,7 @@ Section proof2.
     { (* exercise *)
       admit. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, own γ1 (◯ Excl' 2)) (λ _, own γ2 (◯ Excl' 2))
+    wp_apply (wp_par (λ _, own γ1 (◯E 2)) (λ _, own γ2 (◯E 2))
                 with "[Hγ1◯] [Hγ2◯]").
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n1 n2) "(Hr & Hγ1● & Hγ2●)".
       wp_seq. wp_load. wp_op. wp_store.
