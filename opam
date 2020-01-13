@@ -6,7 +6,7 @@ homepage: "https://gitlab.mpi-sws.org/iris/tutorial-popl18"
 bug-reports: "https://gitlab.mpi-sws.org/iris/tutorial-popl18/issues"
 dev-repo: "git+https://gitlab.mpi-sws.org/iris/tutorial-popl18.git"
 
-synopsis: "A collection of case studies for Iris"
+synopsis: "The Iris tutorial at POPL 2018"
 
 depends: [
   "coq-iris" { (= "dev.2019-11-21.4.d1787db2") | (= "dev") }
