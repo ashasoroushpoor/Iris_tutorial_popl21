@@ -1,13 +1,16 @@
-opam-version: "1.2"
+opam-version: "2.0"
 name: "coq-iris-tutorial-popl18"
 maintainer: "The Iris Organization"
 authors: "The Iris Organization"
 homepage: "https://gitlab.mpi-sws.org/iris/tutorial-popl18"
 bug-reports: "https://gitlab.mpi-sws.org/iris/tutorial-popl18/issues"
-dev-repo: "https://gitlab.mpi-sws.org/iris/tutorial-popl18.git"
-build: [make "-j%{jobs}%"]
-install: [] # This repo does not install
-remove: []
+dev-repo: "git+https://gitlab.mpi-sws.org/iris/tutorial-popl18.git"
+
+synopsis: "A collection of case studies for Iris"
+
 depends: [
   "coq-iris" { (= "dev.2019-11-21.4.d1787db2") | (= "dev") }
 ]
+
+build: [make "-j%{jobs}%"]
+install: [] # This repo does not install

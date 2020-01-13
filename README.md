@@ -22,7 +22,7 @@ please check out the
 ## Installing Iris via opam
 
 The easiest, and recommend, way of installing Iris and its dependencies is via
-the OCaml package manager opam (1.2.2 or newer). You first have to add the Coq
+the OCaml package manager opam (2.0.0 or newer). You first have to add the Coq
 opam repository and the Iris development repository (if you have not already
 done so earlier):
 
