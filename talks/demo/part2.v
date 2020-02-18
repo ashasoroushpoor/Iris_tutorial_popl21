@@ -9,7 +9,7 @@ Definition strange_inc : val := λ: "p",
 Lemma strange_inc_spec1 `{heapG Σ} l (x : Z) :
   l ↦ #x -∗ WP strange_inc #l {{ v, ⌜ v = #() ⌝ ∧ l ↦ #(1 + x) }}.
 Proof.
-  iIntros "?". wp_let. wp_alloc k. wp_let.
+  iIntros "?". wp_lam. wp_alloc k. wp_let.
   wp_load. wp_op. wp_store. wp_load. auto.
 Qed.
 
@@ -21,7 +21,7 @@ Lemma strange_inc_twice_spec1 `{heapG Σ} l (x : Z) :
   l ↦ #x -∗
   WP strange_inc_twice #l {{ v, ⌜ v = #() ⌝ ∧ l ↦ #(2 + x) }}.
 Proof.
-  iIntros "Hl". wp_let. wp_bind (strange_inc _).
+  iIntros "Hl". wp_lam. wp_bind (strange_inc _).
   (* now what? *)
 Abort.
 
@@ -30,14 +30,14 @@ Lemma strange_inc_spec2 `{heapG Σ} Φ l (x : Z) :
   (l ↦ #(1 + x) -∗ Φ #()) -∗
   WP strange_inc #l {{ Φ }}.
 Proof.
-  iIntros "Hl Post". wp_let. wp_alloc k. wp_let.
+  iIntros "Hl Post". wp_lam. wp_alloc k. wp_let.
   wp_load. wp_op. wp_store. wp_load. by iApply "Post".
 Qed.
 
 Lemma strange_inc_spec `{heapG Σ} l (x : Z) :
   {{{ l ↦ #x }}} strange_inc #l {{{ RET #(); l ↦ #(1 + x) }}}.
 Proof.
-  iIntros (Φ) "? Post". wp_let. wp_alloc k. wp_let.
+  iIntros (Φ) "? Post". wp_lam. wp_alloc k. wp_let.
   wp_load. wp_op. wp_store. wp_load. by iApply "Post".
 Qed.
 
@@ -45,7 +45,7 @@ Lemma strange_inc_twice_spec2 `{heapG Σ} l (x : Z) :
   l ↦ #x -∗
   WP strange_inc_twice #l {{ v, ⌜ v = #() ⌝ ∧ l ↦ #(2 + x) }}.
 Proof.
-  iIntros "Hl". wp_let.
+  iIntros "Hl". wp_lam.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl"; wp_seq.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl".
   rewrite (_ : 2 + x = 1 + (1 + x)); last lia. auto.
@@ -54,7 +54,7 @@ Qed.
 Lemma strange_inc_twice_spec `{heapG Σ} l (x : Z) :
   {{{ l ↦ #x }}} strange_inc_twice #l {{{ RET #(); l ↦ #(2 + x) }}}.
 Proof.
-  iIntros (Φ) "Hl Post". wp_let.
+  iIntros (Φ) "Hl Post". wp_lam.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl"; wp_seq.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl".
   iApply "Post". rewrite (_ : 2 + x = 1 + (1 + x)); last lia. done.

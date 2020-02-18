@@ -14,7 +14,7 @@ Section proof1.
 
   Lemma Zeven_2 : Zeven 2.
   Proof. done. Qed.
-  Hint Resolve Zeven_2 Zeven_plus_Zeven.
+  Hint Resolve Zeven_2 Zeven_plus_Zeven : core.
 
   Lemma par_inc_even_spec :
     {{{ True }}} par_inc #() {{{ n, RET #n; ⌜ Zeven n ⌝ }}}.
@@ -56,8 +56,8 @@ Section proof2.
   Lemma frac_auth_alloc n :
     (|==> ∃ γ, own γ (●F n) ∗ own γ (◯F{1} n))%I.
   Proof.
-    by iMod (own_alloc (●F n ⋅ ◯F n))
-      as (γ) "[??]"; eauto with iFrame.
+    iMod (own_alloc (●F n ⋅ ◯F n)) as (γ) "[??]"; eauto with iFrame.
+    by apply frac_auth_valid.
   Qed.
 
   Lemma frac_auth_update n n1 n2 q γ :
@@ -123,14 +123,14 @@ Section proof2.
   Proof.
     iIntros (Φ) "[#? Hγ] Post /=".
     iInduction n as [|n] "IH" forall (q Φ).
-    { do 2 wp_let. wp_op. wp_if. by iApply "Post". }
-    rewrite Nat2Z.inj_succ. do 2 wp_let.
-    wp_op. case_bool_decide; first lia. wp_if.
+    { wp_lam. wp_pures. by iApply "Post". }
+    rewrite Nat2Z.inj_succ. wp_lam. wp_pures.
+    case_bool_decide; first (simplify_eq/=; lia). wp_if.
     iDestruct "Hγ" as "[Hγ1 Hγ2]".
     wp_apply (wp_par (λ _, own γ (◯F{q/2} 2%nat))
                      (λ _, own γ (◯F{q/2} (n * 2)%nat)) with "[Hγ1] [Hγ2]").
     - iApply (par_inc_FAA_spec 0 2 with "[$]"); auto.
-    - wp_op. rewrite (_ : Z.succ n - 1 = n); last lia.
+    - wp_op. rewrite (_ : Z.succ n - 1 = n)%Z; last lia.
       iApply ("IH" with "Hγ2"); auto.
     - iIntros (v1 v2) "[Hγ1 Hγ2] !>". iCombine "Hγ1 Hγ2" as "Hγ".
       by iApply "Post".
