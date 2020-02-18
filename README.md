@@ -38,12 +38,12 @@ work on exercise 4 and 5.
 
 ## Documentation
 
-The files [`ProofMode.md`] and [`HeapLang.md`] in the Iris repository contain a
+The files [`proof_mode.md`] and [`heap_lang.md`] in the Iris repository contain a
 list of the Iris Proof Mode tactics as well as the specialized tactics for
 reasoning about HeapLang programs.
 
-[`ProofMode.md`]: https://gitlab.mpi-sws.org/iris/iris/blob/master/ProofMode.md
-[`HeapLang.md`]: https://gitlab.mpi-sws.org/iris/iris/blob/master/HeapLang.md
+[`proof_mode.md`]: https://gitlab.mpi-sws.org/iris/iris/blob/master/docs/proof_mode.md
+[`heap_lang.md`]: https://gitlab.mpi-sws.org/iris/iris/blob/master/docs/heap_lang.md
 
 If you would like to know more about Iris, we recommend to take a look at:
 
