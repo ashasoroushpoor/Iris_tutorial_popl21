@@ -54,7 +54,7 @@ Section proof2.
   (* Rules for fractional ghost variables
      (proved from generic principles) *)
   Lemma frac_auth_alloc n :
-    (|==> ∃ γ, own γ (●F n) ∗ own γ (◯F{1} n))%I.
+    ⊢ |==> ∃ γ, own γ (●F n) ∗ own γ (◯F{1} n).
   Proof.
     iMod (own_alloc (●F n ⋅ ◯F n)) as (γ) "[??]"; eauto with iFrame.
     by apply frac_auth_valid.

@@ -77,7 +77,7 @@ Section proof2.
   proofs we tend to inline simple lemmas like these, but they are here to
   make things easier to understand. *)
   Lemma ghost_var_alloc n :
-    (|==> ∃ γ, own γ (●E n) ∗ own γ (◯E n))%I.
+    ⊢ |==> ∃ γ, own γ (●E n) ∗ own γ (◯E n).
   Proof.
     iMod (own_alloc (●E n ⋅ ◯E n)) as (γ) "[??]".
     - by apply excl_auth_valid.

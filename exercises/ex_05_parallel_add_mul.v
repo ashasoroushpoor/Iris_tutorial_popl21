@@ -31,7 +31,7 @@ Section proof.
   (** The same helping lemmas for ghost variables that we have already seen in
   the previous exercise. *)
   Lemma ghost_var_alloc b :
-    (|==> ∃ γ, own γ (●E b) ∗ own γ (◯E b))%I.
+    ⊢ |==> ∃ γ, own γ (●E b) ∗ own γ (◯E b).
   Proof.
     iMod (own_alloc (●E b ⋅ ◯E b)) as (γ) "[??]".
     - by apply excl_auth_valid.
