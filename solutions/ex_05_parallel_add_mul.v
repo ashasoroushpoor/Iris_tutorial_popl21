@@ -68,7 +68,7 @@ Section proof.
         end⌝)%I.
 
   Lemma parallel_add_mul_spec :
-    {{{ True }}} parallel_add_mul {{{ z, RET #z; ⌜ z = 2 ∨ z = 4 ⌝ }}}.
+    {{{ True }}} parallel_add_mul {{{ z, RET #z; ⌜ z = 2%Z ∨ z = 4%Z ⌝ }}}.
   Proof.
     iIntros (Φ) "_ Post".
     unfold parallel_add_mul. wp_alloc r as "Hr". wp_let.

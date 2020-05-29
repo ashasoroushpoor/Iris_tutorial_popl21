@@ -63,7 +63,7 @@ Section proof2.
   Lemma frac_auth_update n n1 n2 q γ :
     own γ (●F n1) -∗
     own γ (◯F{q} n2) -∗ |==>
-    own γ (●F (n1 + n)%nat) ∗ own γ (◯F{q} (n2 + n)%nat).
+    own γ (●F (n1 + n)) ∗ own γ (◯F{q} (n2 + n)).
   Proof.
     iIntros "H H'". iMod (own_update_2 with "H H'") as "[$ $]"; last done.
     apply frac_auth_update, nat_local_update. lia.
@@ -84,27 +84,27 @@ Section proof2.
   Lemma par_inc_FAA_spec n n' γ l q :
     {{{ inv N (proof2_inv γ l) ∗ own γ (◯F{q} n) }}}
       FAA #l #n'
-    {{{ m, RET #m; own γ (◯F{q} (n + n'))%nat }}}.
+    {{{ m, RET #m; own γ (◯F{q} (n + n')) }}}.
   Proof.
     iIntros (Φ) "[#Hinv Hγ] Post". iInv N as (m) ">[Hauth Hl]" "Hclose".
     wp_faa.
     iMod (frac_auth_update n' with "Hauth Hγ") as "[Hauth Hγ]".
     iMod ("Hclose" with "[Hauth Hl]") as "_".
-    { iNext; iExists (m + n')%nat. rewrite Nat2Z.inj_add. iFrame. }
+    { iNext; iExists (m + n'). rewrite Nat2Z.inj_add. iFrame. }
     by iApply "Post".
   Qed.
 
   (* Proof of the whole program *)
   Lemma par_inc_spec :
-    {{{ True }}} par_inc #() {{{ RET #4%nat; True }}}.
+    {{{ True }}} par_inc #() {{{ RET #4; True }}}.
   Proof.
     iIntros (Φ) "_ Post". wp_lam. wp_alloc l as "Hl". wp_let.
     iMod (frac_auth_alloc 0) as (γ) "[Hauth Hγ]".
     iDestruct "Hγ" as "[Hγ1 Hγ2]".
     iMod (inv_alloc _ _ (proof2_inv γ l) with "[Hl Hauth]") as "#Hinv".
-    { iNext. iExists 0%nat. iFrame. }
-    wp_apply (wp_par (λ _, own γ (◯F{1/2} 2%nat))
-                     (λ _, own γ (◯F{1/2} 2%nat)) with "[Hγ1] [Hγ2]").
+    { iNext. iExists 0. iFrame. }
+    wp_apply (wp_par (λ _, own γ (◯F{1/2} 2))
+                     (λ _, own γ (◯F{1/2} 2)) with "[Hγ1] [Hγ2]").
     - iApply (par_inc_FAA_spec 0 2 with "[$]"); auto.
     - iApply (par_inc_FAA_spec 0 2 with "[$]"); auto.
     - iIntros (v1 v2) "[Hγ1 Hγ2] !>". iCombine "Hγ1 Hγ2" as "Hγ". simpl.
@@ -112,14 +112,14 @@ Section proof2.
       iDestruct (frac_auth_agree with "Hauth Hγ") as %->.
       wp_load.
       iMod ("Hclose" with "[Hauth Hx]") as "_".
-      { iNext. iExists 4%nat. iFrame. }
+      { iNext. iExists 4. iFrame. }
       by iApply "Post".
   Qed.
 
   Lemma par_incN_helper_spec n γ l q :
-    {{{ inv N (proof2_inv γ l) ∗ own γ (◯F{q} 0%nat) }}}
+    {{{ inv N (proof2_inv γ l) ∗ own γ (◯F{q} 0) }}}
       par_incN_helper #n #l
-    {{{ v, RET v; own γ (◯F{q} (n * 2))%nat }}}.
+    {{{ v, RET v; own γ (◯F{q} (n * 2)) }}}.
   Proof.
     iIntros (Φ) "[#? Hγ] Post /=".
     iInduction n as [|n] "IH" forall (q Φ).
@@ -127,8 +127,8 @@ Section proof2.
     rewrite Nat2Z.inj_succ. wp_lam. wp_pures.
     case_bool_decide; first (simplify_eq/=; lia). wp_if.
     iDestruct "Hγ" as "[Hγ1 Hγ2]".
-    wp_apply (wp_par (λ _, own γ (◯F{q/2} 2%nat))
-                     (λ _, own γ (◯F{q/2} (n * 2)%nat)) with "[Hγ1] [Hγ2]").
+    wp_apply (wp_par (λ _, own γ (◯F{q/2} 2))
+                     (λ _, own γ (◯F{q/2} (n * 2))) with "[Hγ1] [Hγ2]").
     - iApply (par_inc_FAA_spec 0 2 with "[$]"); auto.
     - wp_op. rewrite (_ : Z.succ n - 1 = n)%Z; last lia.
       iApply ("IH" with "Hγ2"); auto.
@@ -142,14 +142,14 @@ Section proof2.
     iIntros (Φ) "_ Post". wp_lam. wp_alloc l as "Hl". wp_let.
     iMod (frac_auth_alloc 0) as (γ) "[Hauth Hγ]".
     iMod (inv_alloc _ _ (proof2_inv γ l) with "[Hl Hauth]") as "#Hinv".
-    { iNext. iExists 0%nat. iFrame. }
+    { iNext. iExists 0. iFrame. }
     wp_apply (par_incN_helper_spec with "[$]").
     iIntros (v) "Hγ". wp_seq.
     iInv N as (m) ">[Hauth Hx]" "Hclose".
     iDestruct (frac_auth_agree with "Hauth Hγ") as %->.
     wp_load.
     iMod ("Hclose" with "[Hauth Hx]") as "_".
-    { iNext. iExists (n * 2)%nat. iFrame. }
+    { iNext. iExists (n * 2). iFrame. }
     by iApply "Post".
   Qed.
 End proof2.

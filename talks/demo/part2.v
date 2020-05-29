@@ -48,7 +48,7 @@ Proof.
   iIntros "Hl". wp_lam.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl"; wp_seq.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl".
-  rewrite (_ : 2 + x = 1 + (1 + x)); last lia. auto.
+  rewrite (_ : 2 + x = 1 + (1 + x))%Z; last lia. auto.
 Qed.
 
 Lemma strange_inc_twice_spec `{heapG Σ} l (x : Z) :
@@ -57,5 +57,5 @@ Proof.
   iIntros (Φ) "Hl Post". wp_lam.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl"; wp_seq.
   wp_apply (strange_inc_spec with "Hl"); iIntros "Hl".
-  iApply "Post". rewrite (_ : 2 + x = 1 + (1 + x)); last lia. done.
+  iApply "Post". rewrite (_ : 2 + x = 1 + (1 + x))%Z; last lia. done.
 Qed.

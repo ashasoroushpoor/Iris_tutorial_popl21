@@ -108,14 +108,14 @@ Section proof2.
     { (* exercise *)
       admit. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, own γ1 (◯E 2)) (λ _, own γ2 (◯E 2))
+    wp_apply (wp_par (λ _, own γ1 (◯E 2%Z)) (λ _, own γ2 (◯E 2%Z))
                 with "[Hγ1◯] [Hγ2◯]").
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n1 n2) "(Hr & Hγ1● & Hγ2●)".
       wp_seq. wp_load. wp_op. wp_store.
       iDestruct (ghost_var_agree with "Hγ1● Hγ1◯") as %->.
       iMod (ghost_var_update γ1 2 with "Hγ1● Hγ1◯") as "[Hγ1● Hγ1◯]".
       wp_apply (release_spec with "[- $Hl Hγ1◯]"); [|by auto].
-      iExists _, _. iFrame "Hγ1● Hγ2●". rewrite (_ : 2 + n2 = 0 + n2 + 2); [done|ring].
+      iExists _, _. iFrame "Hγ1● Hγ2●". rewrite (_ : 2 + n2 = 0 + n2 + 2)%Z; [done|ring].
     - (* exercise *)
       admit.
     - (* exercise *)
@@ -137,19 +137,19 @@ Section proof3.
   Proof.
     iIntros (Φ) "_ Post".
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
-    iMod (own_alloc (●F 0%nat ⋅ ◯F 0%nat)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
+    iMod (own_alloc (●F 0 ⋅ ◯F 0)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
     { by apply auth_both_valid. }
     wp_apply (newlock_spec (parallel_add_inv_3 r γ) with "[Hr Hγ●]").
     { (* exercise *)
       admit. }
     iIntros (l) "#Hl". wp_let.
-    wp_apply (wp_par (λ _, own γ (◯F{1/2} 2%nat)) (λ _, own γ (◯F{1/2} 2%nat))
+    wp_apply (wp_par (λ _, own γ (◯F{1/2} 2)) (λ _, own γ (◯F{1/2} 2))
                 with "[Hγ1◯] [Hγ2◯]").
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr Hγ●]".
       wp_seq. wp_load. wp_op. wp_store.
-      iMod (own_update_2 _ _ _ (●F (n+2) ⋅ ◯F{1/2}2)%nat with "Hγ● Hγ1◯") as "[Hγ● Hγ1◯]".
+      iMod (own_update_2 _ _ _ (●F (n+2) ⋅ ◯F{1/2}2) with "Hγ● Hγ1◯") as "[Hγ● Hγ1◯]".
       { rewrite (comm plus).
-        by apply frac_auth_update, (op_local_update_discrete n 0 2)%nat. }
+        by apply frac_auth_update, (op_local_update_discrete n 0 2). }
       wp_apply (release_spec with "[$Hl Hr Hγ●]"); [|by auto].
       iExists _. iFrame. by rewrite Nat2Z.inj_add.
     - (* exercise *)

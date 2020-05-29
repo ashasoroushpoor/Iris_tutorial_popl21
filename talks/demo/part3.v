@@ -9,7 +9,7 @@ Definition coin_flip : val := λ: <>,
   !"l".
 
 Lemma test2_spec `{heapG Σ, spawnG Σ} :
-  {{{ True }}} coin_flip #() {{{ n, RET #n; ⌜ n = 0 ∨ n = 1 ⌝ }}}.
+  {{{ True }}} coin_flip #() {{{ n, RET #n; ⌜ n = 0%Z ∨ n = 1%Z ⌝ }}}.
 Proof.
   iIntros (Φ) "_ Post". wp_lam. wp_alloc l as "Hl". wp_let.
   iMod (inv_alloc N _
