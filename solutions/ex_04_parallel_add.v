@@ -3,7 +3,7 @@ In this exercise we use the spin-lock from the previous exercise to implement
 the running example during the lecture of the tutorial: proving that when two
 threads increase a reference that's initially zero by two, the result is four.
 *)
-From iris.algebra Require Import excl_auth frac_auth.
+From iris.algebra Require Import excl_auth frac_auth numbers.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import lib.par proofmode notation.
 From solutions Require Import ex_03_spinlock.

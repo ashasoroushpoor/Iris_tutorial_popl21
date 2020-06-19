@@ -1,6 +1,6 @@
 From iris.heap_lang Require Import proofmode notation.
 From iris.heap_lang.lib Require Import par.
-From iris.algebra Require Import frac_auth.
+From iris.algebra Require Import frac_auth numbers.
 Local Definition N := nroot .@ "example".
 
 (* PART 4: Parellel increment (from JH's talk) *)
