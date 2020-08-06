@@ -9,7 +9,7 @@ dev-repo: "git+https://gitlab.mpi-sws.org/iris/tutorial-popl18.git"
 synopsis: "The Iris tutorial at POPL 2018"
 
 depends: [
-  "coq-iris" { (= "dev.2020-07-24.0.9b804e35") | (= "dev") }
+  "coq-iris" { (= "3.3.0") | (= "dev") }
 ]
 
 build: [make "-j%{jobs}%"]
