@@ -101,12 +101,15 @@ Section proof.
     destruct b.
     - wp_cmpxchg_fail. iMod ("Hclose" with "[Hl]") as "_".
       { iNext. iExists true. iFrame. }
-      iModIntro. wp_proj. iApply ("HΦ" $! false). done.
+      iModIntro. wp_proj.
+  (* BEGIN SOLUTION *)
+      iApply ("HΦ" $! false). done.
     - (* Exercise *) wp_cmpxchg_suc.
       iMod ("Hclose" with "[Hl]") as "_".
       { iNext. iExists true. iFrame. }
       iModIntro. wp_proj. by iApply ("HΦ" $! true with "HR").
   Qed.
+  (* END SOLUTION *)
 
   (** *Exercise*: prove the spec of [acquire]. Since [acquire] is a recursive
   function, you should use the tactic [iLöb] for Löb induction. Use the tactic
@@ -114,11 +117,13 @@ Section proof.
   Lemma acquire_spec lk R :
     {{{ is_lock lk R }}} acquire lk {{{ RET #(); R }}}.
   Proof.
+  (* BEGIN SOLUTION *)
     iIntros (Φ) "#Hl HΦ". iLöb as "IH". wp_rec.
     wp_apply (try_acquire_spec with "Hl"). iIntros ([]).
     - iIntros "HR". wp_if. by iApply "HΦ".
     - iIntros "_". wp_if. iApply ("IH" with "HΦ").
   Qed.
+  (* END SOLUTION *)
 
   (** *Exercise*: prove the spec of [release]. At a certain point in this proof,
   you need to open the invariant. For this you can use:
@@ -130,9 +135,11 @@ Section proof.
   Lemma release_spec lk R :
     {{{ is_lock lk R ∗ R }}} release lk {{{ RET #(); True }}}.
   Proof.
+  (* BEGIN SOLUTION *)
     iIntros (Φ) "(Hlock & HR) HΦ".
     iDestruct "Hlock" as (l ->) "#Hinv /=".
     wp_lam. iInv lockN as (b) "[Hl _]" "Hclose".
     wp_store. iApply "HΦ". iApply "Hclose". iNext. iExists false. iFrame.
   Qed.
+  (* END SOLUTION *)
 End proof.

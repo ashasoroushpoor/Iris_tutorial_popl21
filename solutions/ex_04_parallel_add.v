@@ -36,23 +36,33 @@ Section proof1.
     iIntros (Φ) "_ Post".
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
     wp_apply (newlock_spec (parallel_add_inv_1 r) with "[Hr]").
-    { (* exercise *) iExists 0. iFrame. }
+  (* BEGIN SOLUTION *)
+    { iExists 0. iFrame. }
+  (* END SOLUTION BEGIN TEMPLATE
+    { (* exercise *) admit. }
+  END TEMPLATE *)
     iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, True%I) (λ _, True%I)).
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr %]".
       wp_seq. wp_load. wp_op. wp_store.
       wp_apply (release_spec with "[Hr $Hl]"); [|done].
       iExists _. iFrame "Hr". iPureIntro. by apply Zeven_plus_Zeven.
-    - (* exercise *)
-      wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr %]".
+  (* BEGIN SOLUTION *)
+    - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr %]".
       wp_seq. wp_load. wp_op. wp_store.
       wp_apply (release_spec with "[Hr $Hl]"); [|done].
       iExists _. iFrame "Hr". iPureIntro. by apply Zeven_plus_Zeven.
-    - (* exercise *)
-      iIntros (v1 v2) "_ !>". wp_seq.
+    - iIntros (v1 v2) "_ !>". wp_seq.
       wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr %]".
       wp_seq. wp_load. by iApply "Post".
   Qed.
+  (* END SOLUTION BEGIN TEMPLATE
+    - (* exercise *)
+      admit.
+    - (* exercise *)
+      admit.
+  Admitted.
+  END TEMPLATE *)
 End proof1.
 
 (** 2nd proof : we prove that the program returns 4 exactly.
@@ -62,7 +72,7 @@ Whereas we previously abstracted over an arbitrary "ghost state" [Σ] in the
 proofs, we now need to make sure that we can use integer ghost variables. For
 this, we add the type class constraint:
 
-  inG Σ (authR (optionUR (exclR ZO)))
+  inG Σ (excl_authR ZO)
 
 *)
 
@@ -109,7 +119,11 @@ Section proof2.
     iMod (ghost_var_alloc 0) as (γ1) "[Hγ1● Hγ1◯]".
     iMod (ghost_var_alloc 0) as (γ2) "[Hγ2● Hγ2◯]".
     wp_apply (newlock_spec (parallel_add_inv_2 r γ1 γ2) with "[Hr Hγ1● Hγ2●]").
-    { (* exercise *) iExists 0, 0. iFrame. }
+  (* BEGIN SOLUTION *)
+    { iExists 0, 0. iFrame. }
+  (* END SOLUTION BEGIN TEMPLATE
+    { (* exercise *) admit. }
+  END TEMPLATE *)
     iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, own γ1 (◯E 2%Z)) (λ _, own γ2 (◯E 2%Z))
                 with "[Hγ1◯] [Hγ2◯]").
@@ -119,21 +133,27 @@ Section proof2.
       iMod (ghost_var_update γ1 2 with "Hγ1● Hγ1◯") as "[Hγ1● Hγ1◯]".
       wp_apply (release_spec with "[- $Hl Hγ1◯]"); [|by auto].
       iExists _, _. iFrame "Hγ1● Hγ2●". rewrite (_ : 2 + n2 = 0 + n2 + 2)%Z; [done|ring].
-    - (* exercise *)
-      wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n1 n2) "(Hr & Hγ1● & Hγ2●)".
+  (* BEGIN SOLUTION *)
+    - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n1 n2) "(Hr & Hγ1● & Hγ2●)".
       wp_seq. wp_load. wp_op. wp_store.
       iDestruct (ghost_var_agree with "Hγ2● Hγ2◯") as %->.
       iMod (ghost_var_update γ2 2 with "Hγ2● Hγ2◯") as "[Hγ2● Hγ2◯]".
       wp_apply (release_spec with "[- $Hl Hγ2◯]"); [|by auto].
       iExists _, _. iFrame "Hγ1● Hγ2●". by rewrite -Z.add_assoc.
-    - (* exercise *)
-      iIntros (??) "[Hγ1◯ Hγ2◯] !>". wp_seq.
+    - iIntros (??) "[Hγ1◯ Hγ2◯] !>". wp_seq.
       wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n1 n2) "(Hr & Hγ1● & Hγ2●)".
       wp_seq. wp_load.
       iDestruct (ghost_var_agree with "Hγ1● Hγ1◯") as %->.
       iDestruct (ghost_var_agree with "Hγ2● Hγ2◯") as %->.
       by iApply "Post".
   Qed.
+  (* END SOLUTION BEGIN TEMPLATE
+    - (* exercise *)
+      admit.
+    - (* exercise *)
+      admit.
+  Admitted.
+  END TEMPLATE *)
 End proof2.
 
 (** 3rd proof : we prove that the program returns 4 exactly, but using a
@@ -153,7 +173,11 @@ Section proof3.
     iMod (own_alloc (●F 0 ⋅ ◯F 0)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
     { by apply auth_both_valid. }
     wp_apply (newlock_spec (parallel_add_inv_3 r γ) with "[Hr Hγ●]").
-    { (* exercise *) iExists 0. iFrame. }
+  (* BEGIN SOLUTION *)
+    { iExists 0. iFrame. }
+  (* END SOLUTION BEGIN TEMPLATE
+    { (* exercise *) admit. }
+  END TEMPLATE *)
     iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, own γ (◯F{1/2} 2)) (λ _, own γ (◯F{1/2} 2))
                 with "[Hγ1◯] [Hγ2◯]").
@@ -164,19 +188,25 @@ Section proof3.
         by apply frac_auth_update, (op_local_update_discrete n 0 2). }
       wp_apply (release_spec with "[$Hl Hr Hγ●]"); [|by auto].
       iExists _. iFrame. by rewrite Nat2Z.inj_add.
-    - (* exercise *)
-      wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr Hγ●]".
+  (* BEGIN SOLUTION *)
+    - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr Hγ●]".
       wp_seq. wp_load. wp_op. wp_store.
       iMod (own_update_2 _ _ _ (●F (n+2) ⋅ ◯F{1/2}2) with "Hγ● Hγ2◯") as "[Hγ● Hγ2◯]".
       { rewrite (comm plus).
         by apply frac_auth_update, (op_local_update_discrete n 0 2). }
       wp_apply (release_spec with "[- $Hl Hγ2◯]"); [|by auto].
       iExists _. iFrame. by rewrite Nat2Z.inj_add.
-    - (* exercise *)
-      iIntros (??) "[Hγ1◯ Hγ2◯] !>". wp_seq.
+    - iIntros (??) "[Hγ1◯ Hγ2◯] !>". wp_seq.
       wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "(Hr & Hγ●)".
       wp_seq. wp_load. iCombine "Hγ1◯ Hγ2◯" as "Hγ◯".
       iDestruct (own_valid_2 with "Hγ● Hγ◯") as %->%frac_auth_agreeL.
       by iApply "Post".
   Qed.
+  (* END SOLUTION BEGIN TEMPLATE
+    - (* exercise *)
+      admit.
+    - (* exercise *)
+      admit.
+  Admitted.
+  END TEMPLATE *)
 End proof3.

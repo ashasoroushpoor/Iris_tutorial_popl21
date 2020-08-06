@@ -137,9 +137,11 @@ Lemma rotate_l_spec x y z v1 v2 v3 :
     rotate_l #x #y #z
   {{{ RET #(); x ↦ v2 ∗ y ↦ v3 ∗ z ↦ v1 }}}.
 Proof.
+(* BEGIN SOLUTION *)
   iIntros (Φ) "(Hx & Hy & Hz) Post". unfold rotate_l. wp_lam. do 2 wp_let.
   wp_apply (swap_spec with "[$Hx $Hy]"); iIntros "[Hx Hy]"; wp_seq.
   wp_apply (swap_spec with "[$Hy $Hz]"); iIntros "[Hy Hz]".
   iApply ("Post" with "[$]").
 Qed.
+(* END SOLUTION *)
 End proof.

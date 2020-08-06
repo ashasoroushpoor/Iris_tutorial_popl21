@@ -101,7 +101,8 @@ Section proof.
     destruct b.
     - wp_cmpxchg_fail. iMod ("Hclose" with "[Hl]") as "_".
       { iNext. iExists true. iFrame. }
-      iModIntro. wp_proj. (* exercise *)
+      iModIntro. wp_proj.
+    (* exercise *)
   Admitted.
 
   (** *Exercise*: prove the spec of [acquire]. Since [acquire] is a recursive
