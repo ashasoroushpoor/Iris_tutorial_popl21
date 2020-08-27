@@ -66,3 +66,27 @@ are generated from the corresponding files in `solutions/`. Run `make exercises`
 to re-generate those files. This requires `gawk` to be installed (which should
 usually be available on Linux but might have to be installed separately on
 macOS).
+
+The syntax for the solution files is as follows:
+```
+(* BEGIN SOLUTION *)
+  solution here.
+(* END SOLUTION *)
+```
+is replaced by
+```
+  (* exercise *)
+Admitted.
+```
+and the more powerful
+```
+(* BEGIN SOLUTION *)
+  solution here.
+(* END SOLUTION BEGIN TEMPLATE
+  exercise template here.
+END TEMPLATE *)
+```
+is replaced by
+```
+  exercise template here.
+```
