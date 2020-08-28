@@ -28,7 +28,8 @@ _*_.tex
 *.vio
 *.vos
 *.vok
-Makefile.coq*
+Makefile.coq
+Makefile.coq.conf
 .Makefile.coq.d
 *.crashcoqide
 .coqdeps.d
