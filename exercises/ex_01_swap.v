@@ -117,7 +117,7 @@ Lemma rotate_r_spec_again x y z v1 v2 v3 :
     rotate_r #x #y #z
   {{{ RET #(); x ↦ v3 ∗ y ↦ v1 ∗ z ↦ v2 }}}.
 Proof.
-  iIntros (Φ) "(Hx & Hy & Hz) Post". wp_lam.
+  iIntros (Φ) "(Hx & Hy & Hz) Post". wp_lam. do 2 wp_let.
   (* We can shorten the above a bit: Instead of using the [iApply] tactic, we
   can use [wp_apply] which automatically uses [wp_bind] first. Also, it strips
   the later [▷] by calling [iNext] afterwards. *)

@@ -62,7 +62,7 @@ Section proof.
     True%I. (* exercise: replace [True] with something meaningful. *)
 
   Lemma parallel_add_mul_spec :
-    {{{ True }}} parallel_add_mul {{{ z, RET #z; ⌜ z = 2 ∨ z = 4 ⌝ }}}.
+    {{{ True }}} parallel_add_mul {{{ z, RET #z; ⌜ z = 2%Z ∨ z = 4%Z ⌝ }}}.
   Proof.
     (* exercise *)
   Admitted.

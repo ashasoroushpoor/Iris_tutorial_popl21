@@ -36,8 +36,7 @@ Section proof1.
     iIntros (Φ) "_ Post".
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
     wp_apply (newlock_spec (parallel_add_inv_1 r) with "[Hr]").
-    { (* exercise *)
-      admit. }
+    { (* exercise *) admit. }
     iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, True%I) (λ _, True%I)).
     - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr %]".
@@ -105,8 +104,7 @@ Section proof2.
     iMod (ghost_var_alloc 0) as (γ1) "[Hγ1● Hγ1◯]".
     iMod (ghost_var_alloc 0) as (γ2) "[Hγ2● Hγ2◯]".
     wp_apply (newlock_spec (parallel_add_inv_2 r γ1 γ2) with "[Hr Hγ1● Hγ2●]").
-    { (* exercise *)
-      admit. }
+    { (* exercise *) admit. }
     iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, own γ1 (◯E 2%Z)) (λ _, own γ2 (◯E 2%Z))
                 with "[Hγ1◯] [Hγ2◯]").
@@ -140,8 +138,7 @@ Section proof3.
     iMod (own_alloc (●F 0 ⋅ ◯F 0)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
     { by apply auth_both_valid. }
     wp_apply (newlock_spec (parallel_add_inv_3 r γ) with "[Hr Hγ●]").
-    { (* exercise *)
-      admit. }
+    { (* exercise *) admit. }
     iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, own γ (◯F{1/2} 2)) (λ _, own γ (◯F{1/2} 2))
                 with "[Hγ1◯] [Hγ2◯]").

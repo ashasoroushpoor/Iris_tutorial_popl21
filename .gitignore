@@ -26,7 +26,11 @@ _*_.tex
 *.glob
 *.v.d
 *.vio
-Makefile.coq*
+*.vos
+*.vok
+Makefile.coq
+Makefile.coq.conf
+.Makefile.coq.d
 *.crashcoqide
 .coqdeps.d
 build-dep

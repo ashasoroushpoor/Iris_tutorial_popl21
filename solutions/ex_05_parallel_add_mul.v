@@ -59,6 +59,7 @@ Section proof.
   and the rules for those as given above. You are allowed to use any number of
   Boolean ghost variables. *)
   Definition parallel_add_mul_inv (r : loc) (γ1 γ2 : gname) : iProp Σ :=
+  (* BEGIN SOLUTION *)
     (∃ (b1 b2 : bool) (z : Z),
         own γ1 (●E b1) ∗ own γ2 (●E b2) ∗ r ↦ #z ∗
        ⌜match b1, b2 with
@@ -66,10 +67,14 @@ Section proof.
         | true,  false => z = 2
         | false, _     => z = 0
         end⌝)%I.
+  (* END SOLUTION BEGIN TEMPLATE
+    True%I. (* exercise: replace [True] with something meaningful. *)
+  END TEMPLATE *)
 
   Lemma parallel_add_mul_spec :
     {{{ True }}} parallel_add_mul {{{ z, RET #z; ⌜ z = 2%Z ∨ z = 4%Z ⌝ }}}.
   Proof.
+  (* BEGIN SOLUTION *)
     iIntros (Φ) "_ Post".
     unfold parallel_add_mul. wp_alloc r as "Hr". wp_let.
     iMod (ghost_var_alloc false) as (γ1) "[Hγ1● Hγ1◯]".
@@ -102,4 +107,5 @@ Section proof.
       iDestruct (ghost_var_agree with "Hγ2● Hγ2◯") as %->.
       auto.
   Qed.
+  (* END SOLUTION *)
 End proof.
