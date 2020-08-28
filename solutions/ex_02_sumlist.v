@@ -116,8 +116,7 @@ Lemma inc_list_spec_induction n l v :
   {{{ is_list l v }}}
     inc_list #n v
   {{{ RET #(); is_list (map (Z.add n) l) v }}}.
-Proof.
-(* BEGIN SOLUTION *)
+(* SOLUTION *) Proof.
   iIntros (Φ) "Hl Post".
   iInduction l as [|x l] "IH" forall (v Φ); simpl.
   - iDestruct "Hl" as %->.
@@ -134,15 +133,13 @@ Proof.
     iExists p. iSplitR; [done|].
     iExists v. iSplitR "Hl"; [iApply "Hp"|iApply "Hl"].
 Qed.
-(* END SOLUTION *)
 
 (** *Exercise*: Now do the proof again using Löb induction. *)
 Lemma inc_list_spec_löb n l v :
   {{{ is_list l v }}}
     inc_list #n v
   {{{ RET #(); is_list (map (Z.add n) l) v }}}.
-Proof.
-(* BEGIN SOLUTION *)
+(* SOLUTION *) Proof.
   iIntros (Φ) "Hl Post".
   iLöb as "IH" forall (l v Φ). destruct l as [|x l]; simpl; wp_rec; wp_let.
   - iDestruct "Hl" as %->. wp_match. by iApply "Post".
@@ -151,7 +148,6 @@ Proof.
     wp_apply ("IH" with "Hl"). iIntros "Hl".
     iApply "Post". eauto with iFrame.
 Qed.
-(* END SOLUTION *)
 
 (** *Exercise*: Do the proof of [sum_inc_list] by making use of the lemmas of
 [sum_list] and [inc_list] we just proved. Make use of [wp_apply]. *)
@@ -159,13 +155,11 @@ Lemma sum_inc_list_spec n l v :
   {{{ is_list l v }}}
     sum_inc_list #n v
   {{{ RET #(sum_list_coq (map (Z.add n) l)); is_list (map (Z.add n) l) v }}}.
-Proof.
-(* BEGIN SOLUTION *)
+(* SOLUTION *) Proof.
   iIntros (Φ) "Hl Post". wp_lam. wp_let.
   wp_apply (inc_list_spec_induction with "Hl"); iIntros "Hl /="; wp_seq.
   wp_apply (sum_list_spec_induction with "Hl"); auto.
 Qed.
-(* END SOLUTION *)
 
 (** *Optional exercise*: Prove the following spec of [map_list] which makes use
 of a nested Texan triple, This spec is rather weak, as it requires [f] to be
@@ -173,8 +167,7 @@ pure, if you like, you can try to make it more general. *)
 Lemma map_list_spec_induction (f : val) (f_coq : Z → Z) l v :
   (∀ n, {{{ True }}} f #n {{{ RET #(f_coq n); True }}}) -∗
   {{{ is_list l v }}} map_list f v {{{ RET #(); is_list (map f_coq l) v }}}.
-Proof.
-(* BEGIN SOLUTION *)
+(* SOLUTION *) Proof.
   iIntros "#Hf" (Φ) "!# Hl Post".
   iLöb as "IH" forall (l v Φ). destruct l as [|x l]; simpl; wp_rec; wp_let.
   - iDestruct "Hl" as %->. wp_match. by iApply "Post".
@@ -185,5 +178,4 @@ Proof.
     wp_apply ("IH" with "Hl"). iIntros "Hl".
     iApply "Post". eauto with iFrame.
 Qed.
-(* END SOLUTION *)
 End proof.
