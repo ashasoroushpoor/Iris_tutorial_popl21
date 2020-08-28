@@ -73,8 +73,7 @@ Section proof.
 
   Lemma parallel_add_mul_spec :
     {{{ True }}} parallel_add_mul {{{ z, RET #z; ⌜ z = 2%Z ∨ z = 4%Z ⌝ }}}.
-  Proof.
-  (* BEGIN SOLUTION *)
+  (* SOLUTION *) Proof.
     iIntros (Φ) "_ Post".
     unfold parallel_add_mul. wp_alloc r as "Hr". wp_let.
     iMod (ghost_var_alloc false) as (γ1) "[Hγ1● Hγ1◯]".
@@ -107,5 +106,4 @@ Section proof.
       iDestruct (ghost_var_agree with "Hγ2● Hγ2◯") as %->.
       auto.
   Qed.
-  (* END SOLUTION *)
 End proof.
