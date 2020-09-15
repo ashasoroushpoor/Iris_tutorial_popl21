@@ -83,7 +83,7 @@ Section proof2.
     own γ (●E n) -∗ own γ (◯E m) -∗ ⌜ n = m ⌝.
   Proof.
     iIntros "Hγ● Hγ◯".
-    by iDestruct (own_valid_2 with "Hγ● Hγ◯") as %?%excl_auth_agreeL.
+    by iDestruct (own_valid_2 with "Hγ● Hγ◯") as %?%excl_auth_agree_L.
   Qed.
 
   Lemma ghost_var_update γ n' n m :

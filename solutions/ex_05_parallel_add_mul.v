@@ -42,7 +42,7 @@ Section proof.
     own γ (●E b) -∗ own γ (◯E c) -∗ ⌜ b = c ⌝.
   Proof.
     iIntros "Hγ● Hγ◯".
-    by iDestruct (own_valid_2 with "Hγ● Hγ◯") as %<-%excl_auth_agreeL.
+    by iDestruct (own_valid_2 with "Hγ● Hγ◯") as %<-%excl_auth_agree_L.
   Qed.
 
   Lemma ghost_var_update γ b' b c :

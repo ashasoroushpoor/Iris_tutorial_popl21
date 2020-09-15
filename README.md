@@ -10,7 +10,7 @@ This tutorial comes in two versions:
 For the tutorial material you need to have the following dependencies installed:
 
 - Coq 8.10.2 / 8.11.2 / 8.12.0
-- [Iris](https://gitlab.mpi-sws.org/iris/iris) 3.3.0
+ - A development version of [Iris](https://gitlab.mpi-sws.org/iris/iris)
 
 *Note:* the tutorial material will not work with earlier versions of Iris, it
 is important to install the exact versions as given above.
@@ -29,7 +29,15 @@ done so earlier):
     opam repo add coq-released https://coq.inria.fr/opam/released
     opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git
 
-Then you can do `make build-dep` to install exactly the right version of Iris.
+Once you got opam set up, run `make build-dep` to install the right versions
+of the dependencies.
+
+Run `make -jN` to build the full development, where `N` is the number of your
+CPU cores.
+
+To update, do `git pull`.  After an update, the development may fail to compile
+because of outdated dependencies.  To fix that, please run `opam update`
+followed by `make build-dep`.
 
 ## Compiling the exercises
 
