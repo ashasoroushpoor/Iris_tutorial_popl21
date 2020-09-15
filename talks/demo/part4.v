@@ -73,7 +73,7 @@ Section proof2.
     own γ (●F n) -∗ own γ (◯F{1} n') -∗ ⌜n = n'⌝.
   Proof.
     iIntros "H H'".
-    by iDestruct (own_valid_2 with "H H'") as %->%frac_auth_agreeL.
+    by iDestruct (own_valid_2 with "H H'") as %->%frac_auth_agree_L.
   Qed.
 
   (* The invariant that we use *)
