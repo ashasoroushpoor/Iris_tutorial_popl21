@@ -13,11 +13,7 @@ For the tutorial material you need to have the following dependencies installed:
  - A development version of [Iris](https://gitlab.mpi-sws.org/iris/iris)
 
 *Note:* the tutorial material will not work with earlier versions of Iris, it
-is important to install the exact versions as given above.
-
-For a tutorial that works with Coq 8.6, and that can be installed without opam,
-please check out the
-[version of this tutorial for Iris 3.1](https://gitlab.mpi-sws.org/iris/tutorial-popl18/tree/iris-3.1.0).
+is important to install the exact versions as described below.
 
 ## Installing Iris via opam
 
