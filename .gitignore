@@ -33,6 +33,6 @@ Makefile.coq.conf
 .Makefile.coq.d
 *.crashcoqide
 .coqdeps.d
-build-dep
+builddep
 _opam
 .lia.cache
