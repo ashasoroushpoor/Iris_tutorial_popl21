@@ -71,7 +71,7 @@ Lemma swap_spec_2 x y v1 v2 :
 Proof.
   iIntros (Φ) "[??] Post".
   wp_lam. wp_let. wp_load. wp_let. wp_load. wp_store. wp_store.
-  iApply "Post". iFrame.
+  iApply "Post". iFrame. done.
 Qed.
 
 (* We can further automate the lemma by defining a simple Ltac tactic for
@@ -89,7 +89,7 @@ Lemma swap_spec_2_more_automation x y v1 v2 :
   {{{ x ↦ v1 ∗ y ↦ v2 }}} swap #x #y {{{ RET #(); x ↦ v2 ∗ y ↦ v1 }}}.
 Proof.
   iIntros (Φ) "[??] Post". wp_exec.
-  iApply "Post". iFrame.
+  iApply "Post". iFrame. done.
 Qed.
 
 Lemma rotate_r_spec x y z v1 v2 v3 :
