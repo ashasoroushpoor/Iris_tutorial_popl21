@@ -19,8 +19,8 @@ variables:
     paths:
     - _opam/
   only:
-  - master@iris/tutorial-popl18
-  - /^ci/@iris/tutorial-popl18
+  - master@iris/tutorial-popl21
+  - /^ci/@iris/tutorial-popl21
   except:
   - triggers
   - schedules
