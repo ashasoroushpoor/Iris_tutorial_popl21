@@ -28,17 +28,21 @@ done so earlier):
 Once you got opam set up, run `make build-dep` to install the right versions
 of the dependencies.
 
-Run `make -jN` to build the full development, where `N` is the number of your
-CPU cores.
-
 To update, do `git pull`.  After an update, the development may fail to compile
 because of outdated dependencies.  To fix that, please run `opam update`
 followed by `make build-dep`.
 
-## Compiling the exercises
+## Working on the exercises
 
-Run `make` to compile the exercises. You need to have exercise 3 compiled to
-work on exercise 4 and 5.
+To work on the exercises, simply edit the files in the `exercises/` folder. Some
+proofs in these files are admitted and marked as `(* exercise *)`; your task is
+to complete those proofs all the way to a `Qed`.
+
+After you are done with a file, run `make` to compile and check the
+exercises. You need to have exercise 3 compiled to work on exercise 4 and 5.
+
+If you are stuck, you can find solutions in the corresponding file in the
+`solutions/` folder.
 
 ## Documentation
 
@@ -51,25 +55,21 @@ reasoning about HeapLang programs.
 
 If you would like to know more about Iris, we recommend to take a look at:
 
-- http://iris-project.org/tutorial-material.html
-  Lecture Notes on Iris: Higher-Order Concurrent Separation Logic
-  Lars Birkedal and Aleš Bizjak
+- [Lecture Notes on Iris: Higher-Order Concurrent Separation Logic](http://iris-project.org/tutorial-material.html)<br>
+  Lars Birkedal and Aleš Bizjak<br>
   Used for an MSc course on concurrent separation logic at Aarhus University
 
-- https://www.mpi-sws.org/~dreyer/papers/iris-ground-up/paper.pdf
-  Iris from the Ground Up: A Modular Foundation for Higher-Order Concurrent
-  Separation Logic
-  Ralf Jung, Robbert Krebbers, Jacques-Henri Jourdan, Aleš Bizjak, Lars
-  Birkedal, Derek Dreyer.
+- [Iris from the Ground Up: A Modular Foundation for Higher-Order Concurrent Separation Logic](https://www.mpi-sws.org/~dreyer/papers/iris-ground-up/paper.pdf)<br>
+  Ralf Jung, Robbert Krebbers, Jacques-Henri Jourdan, Aleš Bizjak, Lars Birkedal, Derek Dreyer<br>
   A detailed description of the Iris logic and its model
 
 ## Generating the exercises
 
 If you want to contribute to the tutorial, note that the files in `exercises/`
 are generated from the corresponding files in `solutions/`. Run `make exercises`
-to re-generate those files. This requires `gawk` to be installed (which should
-usually be available on Linux, and on macOS can be installed with
-`brew install gawk`).
+to re-generate those files -- this will overwrite your local changes in the
+exercise files! This requires `gawk` to be installed (which should usually be
+available on Linux, and on macOS can be installed with `brew install gawk`).
 
 The syntax for the solution files is as follows:
 ```
