@@ -15,7 +15,7 @@ For the tutorial material you need to have the following dependencies installed:
 *Note:* the tutorial material will not work with earlier or later versions of
 Iris, it is important to install the exact versions as described below.
 
-## Installing Iris via opam
+### Installing Iris via opam
 
 The easiest, and recommend, way of installing Iris and its dependencies is via
 the OCaml package manager opam (2.0.0 or newer). You first have to add the Coq
@@ -31,6 +31,20 @@ of the dependencies.
 To update, do `git pull`.  After an update, the development may fail to compile
 because of outdated dependencies.  To fix that, please run `opam update`
 followed by `make build-dep`.
+
+### Installing Iris without opam (not recommended)
+
+You can also install Iris without opam, but this will increase the risk of build
+failures due to incompatibilities.  Assuming you already have an appropriate
+version of Coq installed, you need to install both std++ and Iris:
+
+* Clone [std++](https://gitlab.mpi-sws.org/iris/stdpp/), then run `make -jN && make install`
+  (where `N` is the number of CPU cores you wish to use for the build).
+* Clone [Iris](https://gitlab.mpi-sws.org/iris/iris/), then run `make -jN && make install`.
+
+We usually make sure that the latest commits of std++, Iris, and the tutorial
+work together, but sometimes they can be temporarily broken.  The versions
+installed via opam is always guaranteed to work.
 
 ## Working on the exercises
 
