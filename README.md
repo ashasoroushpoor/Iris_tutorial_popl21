@@ -1,4 +1,4 @@
-# The Iris tutorial @ POPL'18
+# The Iris tutorial @ POPL'21
 
 This tutorial comes in two versions:
 
@@ -9,7 +9,7 @@ This tutorial comes in two versions:
 
 For the tutorial material you need to have the following dependencies installed:
 
-- Coq 8.12.1
+- Coq 8.12.2 / 8.13.0
 - A development version of [Iris](https://gitlab.mpi-sws.org/iris/iris)
 
 *Note:* the tutorial material will not work with earlier or later versions of
