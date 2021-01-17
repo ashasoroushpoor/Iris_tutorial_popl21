@@ -5,6 +5,11 @@ This tutorial comes in two versions:
 - The folder `exercises`: skeletons of the exercises with parts left `admit`ted.
 - The folder `solutions`: the exercises together with their solutions.
 
+## Chat
+
+For help with this tutorial, you can join the [POPL2021 Tutorial channel](https://mattermost.mpi-sws.org/iris/channels/popl2021-tutorial) on the MPI-SWS Mattermost.
+To log in, you need to [create an MPI-SWS GitLab account](https://gitlab.mpi-sws.org/users/sign_up), either by logging in via GitHub or by registering a new account.
+
 ## Dependencies
 
 For the tutorial material you need to have the following dependencies installed:
