@@ -87,9 +87,9 @@ If you would like to know more about Iris, we recommend to take a look at:
 
 If you want to contribute to the tutorial, note that the files in `exercises/`
 are generated from the corresponding files in `solutions/`. Run `make exercises`
-to re-generate those files -- this will overwrite your local changes in the
-exercise files! This requires `gawk` to be installed (which should usually be
-available on Linux, and on macOS can be installed with `brew install gawk`).
+to re-generate those files. This requires `gawk` to be installed (which should
+usually be available on Linux, and on macOS can be installed with `brew install
+gawk`).
 
 The syntax for the solution files is as follows:
 ```
