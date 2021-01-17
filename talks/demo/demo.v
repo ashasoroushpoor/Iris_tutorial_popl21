@@ -3,9 +3,10 @@ From iris.heap_lang Require Import lib.par proofmode notation.
 Set Default Proof Using "All".
 Open Scope Z.
 
+(*! Part1: verifying swap *)
 
 
-(* The swap function, defined as a heap-lang value. *)
+(** * The swap function, defined as a heap-lang value. *)
 Definition swap : val := λ: "x" "y",
   let: "tmp" := !"x" in
   "x" <- !"y";;
@@ -22,6 +23,8 @@ Lemma ipm_demo {A} P R (Φ: A → iProp Σ) :
   P ∗ (∃ a, Φ a) ∗ R -∗ ∃ a, Φ a ∗ P.
 Proof.
   iIntros "[HP [HΦ HR]]".
+  (* iIntros "H".
+  iDestruct "H" as "[HP [HΦ HR]]". *)
   iDestruct "HΦ" as (x) "HΦ".
   iExists x.
   iSplitL "HΦ".
@@ -37,12 +40,13 @@ Lemma swap_spec x y v1 v2 :
 Proof.
   iIntros (Φ) "[Hx Hy] Post".
 
-  (* The "Texan triple" [ {{{ P }}} e {{{ RET v, Q }}} ] is syntactic
-  sugar for:
+  (* The "Texan triple" [ {{{ P }}} e {{{ RET v, Q }}} ] is
+     syntactic sugar for:
 
          ∀ Φ, P -∗ (Q -∗ Φ v) -∗ WP e {{ v, Φ v }}
 
-     Which is logically equivalent to [ P -∗ WP e {{ x, x = v ∗ Q }} ] *)
+     Which is logically equivalent to
+     [ P -∗ WP e {{ x, x = v ∗ Q }} ] *)
 
   unfold swap.
   wp_lam. wp_let.
@@ -59,6 +63,7 @@ End proof.
 
 
 
+(*! Part2: verifying parallel add 2 example *)
 
 Definition parallel_add : expr :=
   let: "r" := ref #0 in
@@ -74,6 +79,7 @@ Section proof.
   Definition parallel_add_inv (r : loc) : iProp Σ :=
     (∃ n : Z, r ↦ #n ∗ ⌜ Zeven n ⌝)%I.
 
+  (** * main body of the proof *)
   Lemma faa_preserves_even (r : loc) :
     {{{ inv N (parallel_add_inv r) }}}
       FAA #r #2
@@ -97,7 +103,7 @@ Section proof.
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
     iMod (inv_alloc N _ (parallel_add_inv r) with "[Hr]") as "#Hinv".
     { iNext. unfold parallel_add_inv.
-      iExists 0; iFrame. }
+      iExists 0. iFrame. }
     wp_apply (wp_par (λ _, True%I) (λ _, True%I)).
     { (* first thread *)
       wp_apply (faa_preserves_even with "[$Hinv]").
