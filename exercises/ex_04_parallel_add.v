@@ -12,13 +12,10 @@ From exercises Require Import ex_03_spinlock.
 parallel composition. *)
 Definition parallel_add : expr :=
   let: "r" := ref #0 in
-  let: "l" := newlock #() in
-  (
-    (acquire "l";; "r" <- !"r" + #2;; release "l")
+  ( FAA "r" #2 )
   |||
-    (acquire "l";; "r" <- !"r" + #2;; release "l")
-  );;
-  acquire "l";;
+  ( FAA "r" #2 )
+  ;;
   !"r".
 
 (** 1st proof : we only prove that the return value is even.
@@ -35,14 +32,16 @@ Section proof1.
   Proof.
     iIntros (Φ) "_ Post".
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
-    wp_apply (newlock_spec (parallel_add_inv_1 r) with "[Hr]").
+    iMod (inv_alloc nroot _ (parallel_add_inv_1 r) with "[Hr]") as "#Hinv".
     { (* exercise *) admit. }
-    iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, True%I) (λ _, True%I)).
-    - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr %]".
-      wp_seq. wp_load. wp_op. wp_store.
-      wp_apply (release_spec with "[Hr $Hl]"); [|done].
-      iExists _. iFrame "Hr". iPureIntro. by apply Zeven_plus_Zeven.
+    - iInv "Hinv" as (n) ">[Hr %]" "Hclose".
+      wp_faa.
+      iMod ("Hclose" with "[Hr]") as "_".
+      { (* Re-establish invariant. *)
+        iExists _. iFrame "Hr". iPureIntro. by apply Zeven_plus_Zeven. }
+      (* Post-condition of this thread. *)
+      done.
     - (* exercise *)
       admit.
     - (* exercise *)
@@ -103,16 +102,15 @@ Section proof2.
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
     iMod (ghost_var_alloc 0) as (γ1) "[Hγ1● Hγ1◯]".
     iMod (ghost_var_alloc 0) as (γ2) "[Hγ2● Hγ2◯]".
-    wp_apply (newlock_spec (parallel_add_inv_2 r γ1 γ2) with "[Hr Hγ1● Hγ2●]").
+    iMod (inv_alloc nroot _ (parallel_add_inv_2 r γ1 γ2) with "[Hr Hγ1● Hγ2●]") as "#Hinv".
     { (* exercise *) admit. }
-    iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, own γ1 (◯E 2%Z)) (λ _, own γ2 (◯E 2%Z))
                 with "[Hγ1◯] [Hγ2◯]").
-    - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n1 n2) "(Hr & Hγ1● & Hγ2●)".
-      wp_seq. wp_load. wp_op. wp_store.
+    - iInv "Hinv" as (n1 n2) ">(Hr & Hγ1● & Hγ2●)" "Hclose".
+      wp_faa.
       iDestruct (ghost_var_agree with "Hγ1● Hγ1◯") as %->.
       iMod (ghost_var_update γ1 2 with "Hγ1● Hγ1◯") as "[Hγ1● Hγ1◯]".
-      wp_apply (release_spec with "[- $Hl Hγ1◯]"); [|by auto].
+      iMod ("Hclose" with "[- Hγ1◯]"); [|by auto].
       iExists _, _. iFrame "Hγ1● Hγ2●". rewrite (_ : 2 + n2 = 0 + n2 + 2)%Z; [done|ring].
     - (* exercise *)
       admit.
@@ -121,8 +119,10 @@ Section proof2.
   Admitted.
 End proof2.
 
-(** 3rd proof : we prove that the program returns 4 exactly, but using a
-fractional authoritative ghost state.  We need another piece of ghost state. *)
+(** 3rd proof (not shown in the talk) : we prove that the program returns 4
+exactly, but using a fractional authoritative ghost state.  We need another kind
+of ghost resource for this, but we only need one ghost variable no matter how
+many threads there are. *)
 Section proof3.
   Context `{!heapG Σ, !spawnG Σ, !inG Σ (frac_authR natR)}.
 
@@ -137,17 +137,16 @@ Section proof3.
     unfold parallel_add. wp_alloc r as "Hr". wp_let.
     iMod (own_alloc (●F 0 ⋅ ◯F 0)) as (γ) "[Hγ● [Hγ1◯ Hγ2◯]]".
     { by apply auth_both_valid. }
-    wp_apply (newlock_spec (parallel_add_inv_3 r γ) with "[Hr Hγ●]").
+    iMod (inv_alloc nroot _ (parallel_add_inv_3 r γ) with "[Hr Hγ●]") as "#Hinv".
     { (* exercise *) admit. }
-    iIntros (l) "#Hl". wp_let.
     wp_apply (wp_par (λ _, own γ (◯F{1/2} 2)) (λ _, own γ (◯F{1/2} 2))
                 with "[Hγ1◯] [Hγ2◯]").
-    - wp_apply (acquire_spec with "Hl"). iDestruct 1 as (n) "[Hr Hγ●]".
-      wp_seq. wp_load. wp_op. wp_store.
+    - iInv "Hinv" as (n) ">[Hr Hγ●]" "Hclose".
+      wp_faa.
       iMod (own_update_2 _ _ _ (●F (n+2) ⋅ ◯F{1/2}2) with "Hγ● Hγ1◯") as "[Hγ● Hγ1◯]".
       { rewrite (comm plus).
         by apply frac_auth_update, (op_local_update_discrete n 0 2). }
-      wp_apply (release_spec with "[$Hl Hr Hγ●]"); [|by auto].
+      iMod ("Hclose" with "[Hr Hγ●]"); [|by auto].
       iExists _. iFrame. by rewrite Nat2Z.inj_add.
     - (* exercise *)
       admit.
