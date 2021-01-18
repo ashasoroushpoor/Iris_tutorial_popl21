@@ -5,6 +5,10 @@ This tutorial comes in two versions:
 - The folder `exercises`: skeletons of the exercises with parts left `admit`ted.
 - The folder `solutions`: the exercises together with their solutions.
 
+The slides for the tutorial's lecture component are at [talks/iris-popl21-tutorial.pdf](talks/iris-popl21-tutorial.pdf).
+
+The Coq demo source is in [demo.v](talks/demo/demo.v).
+
 ## Chat
 
 For help with this tutorial, you can join the [POPL2021 Tutorial channel](https://mattermost.mpi-sws.org/iris/channels/popl2021-tutorial) on the MPI-SWS Mattermost.
