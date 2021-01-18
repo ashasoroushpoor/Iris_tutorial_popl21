@@ -137,7 +137,8 @@ Section proof.
 
   (* [●E n] and [◯E n] are elements of the particular RA we used in
   lecture to derive ghost variables, written ●n and ◯n in lecture *)
-  (* [own γ (●E n)] was written like γ ↪● n in the lecture *)
+  (* [own γ (●E n)] was written like γ ↪● n in the lecture (and general
+  ghost ownership was written with a dashed box with a superscript γ) *)
 
   Definition parallel_add_inv_2 (r : loc) (γ1 γ2 : gname)
     : iProp Σ :=
@@ -146,6 +147,8 @@ Section proof.
 
   (* these are the three lemmas for ghost variables, derived from the
      general axioms for ownership *)
+  (* note: there are simpler ways to do these proofs, here we're trying
+     to stick to the lecture *)
 
   Lemma ghost_var_alloc (n : Z) :
     True ==∗ ∃ γ, own γ (●E n) ∗ own γ (◯E n).
@@ -160,7 +163,8 @@ Section proof.
     own γ (●E n1) ∗ own γ (◯E n2) -∗ ⌜n1 = n2⌝.
   Proof.
     iIntros "[H1 H2]".
-    iDestruct (own_valid_2 with "H1 H2") as %H.
+    iDestruct (own_op with "[$H1 $H2]") as "H".
+    iDestruct (own_valid with "H") as %H.
     apply excl_auth_agree_L in H; done.
   Qed.
 
@@ -168,7 +172,8 @@ Section proof.
     own γ (●E n) ∗ own γ (◯E n) ==∗ own γ (●E n') ∗ own γ (◯E n').
   Proof.
     iIntros "[H1 H2]".
-    iMod (own_update_2 _ _ _ (●E n' ⋅ ◯E n') with "H1 H2")
+    iDestruct (own_op with "[$H1 $H2]") as "H".
+    iMod (own_update _ _ (●E n' ⋅ ◯E n') with "H")
       as "[H1 H2]".
     { apply excl_auth_update. }
     by iFrame.
