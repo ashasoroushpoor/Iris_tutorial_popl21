@@ -9,6 +9,8 @@ The slides for the tutorial's lecture component are at [talks/iris-popl21-tutori
 
 The Coq demo source is in [demo.v](talks/demo/demo.v).
 
+The tutorial material is based on the earlier [POPL 2018 tutorial](https://gitlab.mpi-sws.org/iris/tutorial-popl18/) by Robbert Krebbers and Jacques-Henri Jourdan.
+
 ## Chat
 
 For help with this tutorial, you can join the [POPL2021 Tutorial channel](https://mattermost.mpi-sws.org/iris/channels/popl2021-tutorial) on the MPI-SWS Mattermost.
