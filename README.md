@@ -6,6 +6,7 @@ This tutorial comes in two versions:
 - The folder `solutions`: the exercises together with their solutions.
 
 The slides for the tutorial's lecture component are at [talks/iris-popl21-tutorial.pdf](talks/iris-popl21-tutorial.pdf).
+You can also watch the [recording of this talk from POPL'21](https://www.youtube.com/watch?v=LjXaffBpMag).
 
 The Coq demo source is in [demo.v](talks/demo/demo.v).
 
