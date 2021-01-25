@@ -66,7 +66,7 @@ proofs in these files are admitted and marked as `(* exercise *)`; your task is
 to complete those proofs all the way to a `Qed`.
 
 After you are done with a file, run `make` to compile and check the
-exercises. You need to have exercise 3 compiled to work on exercise 4 and 5.
+exercises. You need to have exercise 3 compiled to work on exercise 5.
 
 If you are stuck, you can find solutions in the corresponding file in the
 `solutions/` folder.
