@@ -38,8 +38,8 @@ already done so earlier):
     opam repo add coq-released https://coq.inria.fr/opam/released
     opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git
 
-Once you have opam set up, run `make build-dep` to install the right versions
-of the dependencies.
+Once you have opam set up, `cd` into a clone of this repository and run `make
+build-dep` to install the right versions of the dependencies.
 
 To update, do `git pull`.  After an update, the development may fail to compile
 because of outdated dependencies.  To fix that, please run `opam update`
@@ -65,7 +65,8 @@ To work on the exercises, simply edit the files in the `exercises/` folder. Some
 proofs in these files are admitted and marked as `(* exercise *)`; your task is
 to complete those proofs all the way to a `Qed`.
 
-After you are done with a file, run `make` to compile and check the
+After you are done with a file, run `make` (with your working directory being
+the repository root, where the `Makefile` is located) to compile and check the
 exercises. You need to have exercise 3 compiled to work on exercise 5.
 
 If you are stuck, you can find solutions in the corresponding file in the
