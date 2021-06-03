@@ -15,7 +15,7 @@ Definition swap : val := λ: "x" "y",
 
 
 Section proof.
-Context `{!heapG Σ}.
+Context `{!heapGS Σ}.
 
 
 
@@ -72,7 +72,7 @@ Definition parallel_add : expr :=
   !"r".
 
 Section proof.
-  Context `{!heapG Σ, !spawnG Σ}.
+  Context `{!heapGS Σ, !spawnG Σ}.
 
   (* we need to name our invariant; any name will do here *)
   Let N := nroot.@"example".
@@ -131,7 +131,7 @@ End proof.
 
 (*! Part 3: verifying parallel add returns 4 *)
 Section proof.
-  Context `{!heapG Σ, !spawnG Σ, !inG Σ (excl_authR ZO)}.
+  Context `{!heapGS Σ, !spawnG Σ, !inG Σ (excl_authR ZO)}.
 
   Let N := nroot.@"example2".
 
