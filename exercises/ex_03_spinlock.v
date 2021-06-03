@@ -43,7 +43,7 @@ location [lk] guards the payload [R] described as an Iris proposition.
 *)
 
 Section proof.
-  Context `{!heapG Σ}.
+  Context `{!heapGS Σ}.
 
   (** The invariant of the lock:
 

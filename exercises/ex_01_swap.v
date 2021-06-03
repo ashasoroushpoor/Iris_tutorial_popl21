@@ -32,9 +32,9 @@ necessary cameras are present in [Σ].
 
 For this proof, we do not need any special ghost state (i.e. cameras) apart from
 the ghost state that's the heap-lang uses internally for modeling the [l ↦ v]
-connective. The cameras for this ghost state is provided by the class [heapG].
+connective. The cameras for this ghost state is provided by the class [heapGS].
 *)
-Context `{!heapG Σ}.
+Context `{!heapGS Σ}.
 
 Lemma swap_spec x y v1 v2 :
   {{{ x ↦ v1 ∗ y ↦ v2 }}} swap #x #y {{{ RET #(); x ↦ v2 ∗ y ↦ v1 }}}.

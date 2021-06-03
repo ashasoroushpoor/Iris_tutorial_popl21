@@ -29,7 +29,7 @@ Definition parallel_add_mul : expr :=
 
 (** In this proof we will make use of Boolean ghost variables. *)
 Section proof.
-  Context `{!heapG Σ, !spawnG Σ, !inG Σ (excl_authR boolO)}.
+  Context `{!heapGS Σ, !spawnG Σ, !inG Σ (excl_authR boolO)}.
 
   (** The same helping lemmas for ghost variables that we have already seen in
   the previous exercise. *)

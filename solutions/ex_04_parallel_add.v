@@ -21,7 +21,7 @@ Definition parallel_add : expr :=
 (** 1st proof : we only prove that the return value is even.
 No ghost state is involved in this proof. *)
 Section proof1.
-  Context `{!heapG Σ, !spawnG Σ}.
+  Context `{!heapGS Σ, !spawnG Σ}.
 
   Definition parallel_add_inv_1 (r : loc) : iProp Σ :=
     (∃ n : Z, r ↦ #n ∗ ⌜ Zeven n ⌝)%I.
@@ -80,7 +80,7 @@ this, we add the type class constraint:
 *)
 
 Section proof2.
-  Context `{!heapG Σ, !spawnG Σ, !inG Σ (excl_authR ZO)}.
+  Context `{!heapGS Σ, !spawnG Σ, !inG Σ (excl_authR ZO)}.
 
   Definition parallel_add_inv_2 (r : loc) (γ1 γ2 : gname) : iProp Σ :=
     (∃ n1 n2 : Z, r ↦ #(n1 + n2)
@@ -165,7 +165,7 @@ exactly, but using a fractional authoritative ghost state.  We need another kind
 of ghost resource for this, but we only need one ghost variable no matter how
 many threads there are. *)
 Section proof3.
-  Context `{!heapG Σ, !spawnG Σ, !inG Σ (frac_authR natR)}.
+  Context `{!heapGS Σ, !spawnG Σ, !inG Σ (frac_authR natR)}.
 
   Definition parallel_add_inv_3 (r : loc) (γ : gname) : iProp Σ :=
     (∃ n : nat, r ↦ #n ∗ own γ (●F n))%I.

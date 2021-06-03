@@ -49,7 +49,7 @@ Definition map_list : val :=
     end.
 
 Section proof.
-Context `{!heapG Σ}.
+Context `{!heapGS Σ}.
 
 (** Representation predicate in separation logic for a list of integers [l]: *)
 Fixpoint is_list (l : list Z) (v : val) : iProp Σ :=
