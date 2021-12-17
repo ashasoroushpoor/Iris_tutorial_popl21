@@ -21,7 +21,7 @@ To log in, you need to [create an MPI-SWS GitLab account](https://gitlab.mpi-sws
 
 For the tutorial material you need to have the following dependencies installed:
 
-- Coq 8.12.2 or 8.13.0
+- Coq 8.13.2 / 8.14.1
 - A development version of [Iris](https://gitlab.mpi-sws.org/iris/iris)
 
 *Note:* the tutorial material will not work with earlier or later versions of
