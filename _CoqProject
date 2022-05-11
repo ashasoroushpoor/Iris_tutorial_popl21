@@ -1,7 +1,6 @@
 -Q exercises exercises
 -Q solutions solutions
 -Q talks/demo demo
--docroot tutorial-popl21
 INSTALLDEFAULTROOT = tutorial-popl21
 
 talks/demo/demo.v
