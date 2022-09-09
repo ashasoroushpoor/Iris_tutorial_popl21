@@ -6,7 +6,6 @@ zero by two, the result is four.
 From iris.algebra Require Import excl_auth frac_auth numbers.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import lib.par proofmode notation.
-From exercises Require Import ex_03_spinlock.
 
 (** The program as a heap-lang expression. We use the heap-lang [par] module for
 parallel composition. *)
