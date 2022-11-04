@@ -51,7 +51,10 @@ Definition map_list : val :=
 Section proof.
 Context `{!heapGS Σ}.
 
-(** Representation predicate in separation logic for a list of integers [l]: *)
+(** Representation predicate in separation logic for a list of integers [l].
+
+The ⌜...⌝ brackets are used to take a Coq proposition (of type Prop)
+and embed it into an Iris proposition (of type iProp). *)
 Fixpoint is_list (l : list Z) (v : val) : iProp Σ :=
   match l with
   | [] => ⌜ v = NONEV ⌝
