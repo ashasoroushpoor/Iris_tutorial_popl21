@@ -100,7 +100,7 @@ Section proof2.
     own γ (●E n) -∗ own γ (◯E m) -∗ ⌜ n = m ⌝.
   Proof.
     iIntros "Hγ● Hγ◯".
-    by iDestruct (own_valid_2 with "Hγ● Hγ◯") as %?%excl_auth_agree_L.
+    by iCombine "Hγ● Hγ◯" gives %?%excl_auth_agree_L.
   Qed.
 
   Lemma ghost_var_update γ n' n m :
@@ -203,7 +203,7 @@ Section proof3.
     - iIntros (??) "[Hγ1◯ Hγ2◯] !>". wp_seq.
       iInv "Hinv" as (n) "(Hr & Hγ●)" "Hclose".
       wp_load. iCombine "Hγ1◯ Hγ2◯" as "Hγ◯".
-      iDestruct (own_valid_2 with "Hγ● Hγ◯") as %->%frac_auth_agree_L.
+      iCombine "Hγ● Hγ◯" gives %->%frac_auth_agree_L.
       iMod ("Hclose" with "[Hr Hγ●]") as "_".
       { iExists _. iFrame. } 
       by iApply "Post".
