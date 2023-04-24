@@ -65,12 +65,14 @@ Proof.
   - iApply "Hy".
 Qed.
 
-(* Same lemma, but using a bit of automation to shorten the proof. *)
+(* Same lemma, but using a bit of automation to shorten the proof:
+[wp_load/store] automatically perform pure reductions;
+[iFrame] helps with the postcondition. *)
 Lemma swap_spec_2 x y v1 v2 :
   {{{ x ↦ v1 ∗ y ↦ v2 }}} swap #x #y {{{ RET #(); x ↦ v2 ∗ y ↦ v1 }}}.
 Proof.
-  iIntros (Φ) "[??] Post".
-  wp_lam. wp_let. wp_load. wp_let. wp_load. wp_store. wp_store.
+  iIntros (Φ) "[??] Post". wp_lam.
+  wp_load. wp_load. wp_store. wp_store.
   iApply "Post". iFrame. done.
 Qed.
 

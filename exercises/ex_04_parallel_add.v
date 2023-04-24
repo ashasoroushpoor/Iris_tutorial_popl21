@@ -7,6 +7,8 @@ From iris.algebra Require Import excl_auth frac_auth numbers.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import lib.par proofmode notation.
 
+Local Open Scope Z.
+
 (** The program as a heap-lang expression. We use the heap-lang [par] module for
 parallel composition. *)
 Definition parallel_add : expr :=
@@ -103,14 +105,14 @@ Section proof2.
     iMod (ghost_var_alloc 0) as (γ2) "[Hγ2● Hγ2◯]".
     iMod (inv_alloc nroot _ (parallel_add_inv_2 r γ1 γ2) with "[Hr Hγ1● Hγ2●]") as "#Hinv".
     { (* exercise *) admit. }
-    wp_smart_apply (wp_par (λ _, own γ1 (◯E 2%Z)) (λ _, own γ2 (◯E 2%Z))
+    wp_smart_apply (wp_par (λ _, own γ1 (◯E 2)) (λ _, own γ2 (◯E 2))
                 with "[Hγ1◯] [Hγ2◯]").
     - iInv "Hinv" as (n1 n2) ">(Hr & Hγ1● & Hγ2●)" "Hclose".
       wp_faa.
       iDestruct (ghost_var_agree with "Hγ1● Hγ1◯") as %->.
       iMod (ghost_var_update γ1 2 with "Hγ1● Hγ1◯") as "[Hγ1● Hγ1◯]".
       iMod ("Hclose" with "[- Hγ1◯]"); [|by auto].
-      iExists _, _. iFrame "Hγ1● Hγ2●". rewrite (_ : 2 + n2 = 0 + n2 + 2)%Z; [done|ring].
+      iExists _, _. iFrame "Hγ1● Hγ2●". rewrite (_ : 2 + n2 = 0 + n2 + 2); [done|ring].
     - (* exercise *)
       admit.
     - (* exercise *)
@@ -123,10 +125,10 @@ exactly, but using a fractional authoritative ghost state.  We need another kind
 of ghost resource for this, but we only need one ghost variable no matter how
 many threads there are. *)
 Section proof3.
-  Context `{!heapGS Σ, !spawnG Σ, !inG Σ (frac_authR natR)}.
+  Context `{!heapGS Σ, !spawnG Σ, !inG Σ (frac_authR ZR)}.
 
   Definition parallel_add_inv_3 (r : loc) (γ : gname) : iProp Σ :=
-    (∃ n : nat, r ↦ #n ∗ own γ (●F n))%I.
+    (∃ n : Z, r ↦ #n ∗ own γ (●F n))%I.
 
   (** *Exercise*: finish the missing cases of the proof. *)
   Lemma parallel_add_spec_3 :
@@ -143,10 +145,9 @@ Section proof3.
     - iInv "Hinv" as (n) ">[Hr Hγ●]" "Hclose".
       wp_faa.
       iMod (own_update_2 _ _ _ (●F (n+2) ⋅ ◯F{1/2}2) with "Hγ● Hγ1◯") as "[Hγ● Hγ1◯]".
-      { rewrite (comm plus).
-        by apply frac_auth_update, (op_local_update_discrete n 0 2). }
+      { apply frac_auth_update, Z_local_update. lia. }
       iMod ("Hclose" with "[Hr Hγ●]"); [|by auto].
-      iExists _. iFrame. by rewrite Nat2Z.inj_add.
+      iExists _. iFrame.
     - (* exercise *)
       admit.
     - (* exercise *)
