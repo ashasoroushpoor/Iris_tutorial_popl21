@@ -1,7 +1,7 @@
 -Q exercises exercises
 -Q solutions solutions
 -Q talks/demo demo
-INSTALLDEFAULTROOT = tutorial-popl21
+-docroot tutorial-popl21
 
 talks/demo/demo.v
 exercises/ex_01_swap.v
