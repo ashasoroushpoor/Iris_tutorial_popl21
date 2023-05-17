@@ -52,7 +52,7 @@ Section proof.
     then the payload [R] of the lock holds.
   *)
   Definition lock_inv (l : loc) (R : iProp Σ) : iProp Σ :=
-    (∃ b : bool, l ↦ #b ∗ if b then True else R)%I.
+    ∃ b : bool, l ↦ #b ∗ if b then True else R.
 
   (** Invariants in Iris are named by a *namespace* so that several invariants
   can be opened at the same time, while guaranteeing that no invariant is opened
@@ -63,7 +63,7 @@ Section proof.
   *)
   Definition lockN : namespace := nroot .@ "lock".
   Definition is_lock (lk : val) (R : iProp Σ) : iProp Σ :=
-    (∃ l: loc, ⌜ lk = #l ⌝ ∧ inv lockN (lock_inv l R))%I.
+    ∃ l: loc, ⌜ lk = #l ⌝ ∧ inv lockN (lock_inv l R).
 
   (** The main proofs. *)
   Lemma newlock_spec (R : iProp Σ):

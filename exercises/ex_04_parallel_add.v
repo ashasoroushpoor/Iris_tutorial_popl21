@@ -25,7 +25,7 @@ Section proof1.
   Context `{!heapGS Σ, !spawnG Σ}.
 
   Definition parallel_add_inv_1 (r : loc) : iProp Σ :=
-    (∃ n : Z, r ↦ #n ∗ ⌜ Zeven n ⌝)%I.
+    ∃ n : Z, r ↦ #n ∗ ⌜ Zeven n ⌝.
 
   (** *Exercise*: finish the missing cases of this proof. *)
   Lemma parallel_add_spec_1 :
@@ -65,8 +65,8 @@ Section proof2.
   Context `{!heapGS Σ, !spawnG Σ, !inG Σ (excl_authR ZO)}.
 
   Definition parallel_add_inv_2 (r : loc) (γ1 γ2 : gname) : iProp Σ :=
-    (∃ n1 n2 : Z, r ↦ #(n1 + n2)
-            ∗ own γ1 (●E n1) ∗ own γ2 (●E n2))%I.
+    ∃ n1 n2 : Z, r ↦ #(n1 + n2)
+               ∗ own γ1 (●E n1) ∗ own γ2 (●E n2).
 
   (** Some helping lemmas for ghost state that we need in the proof. In actual
   proofs we tend to inline simple lemmas like these, but they are here to
@@ -128,7 +128,7 @@ Section proof3.
   Context `{!heapGS Σ, !spawnG Σ, !inG Σ (frac_authR ZR)}.
 
   Definition parallel_add_inv_3 (r : loc) (γ : gname) : iProp Σ :=
-    (∃ n : Z, r ↦ #n ∗ own γ (●F n))%I.
+    ∃ n : Z, r ↦ #n ∗ own γ (●F n).
 
   (** *Exercise*: finish the missing cases of the proof. *)
   Lemma parallel_add_spec_3 :

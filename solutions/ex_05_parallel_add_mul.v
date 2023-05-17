@@ -63,15 +63,15 @@ Section proof.
   Boolean ghost variables. *)
   Definition parallel_add_mul_inv (r : loc) (γ1 γ2 : gname) : iProp Σ :=
   (* BEGIN SOLUTION *)
-    (∃ (b1 b2 : bool) (z : Z),
-        own γ1 (●E b1) ∗ own γ2 (●E b2) ∗ r ↦ #z ∗
-       ⌜match b1, b2 with
-        | true,  true  => z = 2 ∨ z = 4
-        | true,  false => z = 2
-        | false, _     => z = 0
-        end⌝)%I.
+    ∃ (b1 b2 : bool) (z : Z),
+      own γ1 (●E b1) ∗ own γ2 (●E b2) ∗ r ↦ #z ∗
+      ⌜match b1, b2 with
+       | true,  true  => z = 2 ∨ z = 4
+       | true,  false => z = 2
+       | false, _     => z = 0
+       end⌝.
   (* END SOLUTION BEGIN TEMPLATE
-    True%I. (* exercise: replace [True] with something meaningful. *)
+    True. (* exercise: replace [True] with something meaningful. *)
   END TEMPLATE *)
 
   Lemma parallel_add_mul_spec :

@@ -62,7 +62,7 @@ Section proof.
   and the rules for those as given above. You are allowed to use any number of
   Boolean ghost variables. *)
   Definition parallel_add_mul_inv (r : loc) (γ1 γ2 : gname) : iProp Σ :=
-    True%I. (* exercise: replace [True] with something meaningful. *)
+    True. (* exercise: replace [True] with something meaningful. *)
 
   Lemma parallel_add_mul_spec :
     {{{ True }}} parallel_add_mul {{{ z, RET #z; ⌜ z = 2%Z ∨ z = 4%Z ⌝ }}}.

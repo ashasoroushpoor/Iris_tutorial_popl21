@@ -60,7 +60,7 @@ Fixpoint is_list (l : list Z) (v : val) : iProp Σ :=
   | [] => ⌜ v = NONEV ⌝
   | x :: l' => ∃ (p : loc), ⌜ v = SOMEV #p ⌝ ∗
                  ∃ v' : val, p ↦ (#x, v') ∗ is_list l' v'
-  end%I.
+  end.
 
 (**
 In order to give a specification of [sum_list] we relate its result to the

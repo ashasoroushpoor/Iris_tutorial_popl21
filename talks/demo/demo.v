@@ -78,7 +78,7 @@ Section proof.
   Let N := nroot.@"example".
 
   Definition parallel_add_inv (r : loc) : iProp Σ :=
-    (∃ n : Z, r ↦ #n ∗ ⌜ Zeven n ⌝)%I.
+    ∃ n : Z, r ↦ #n ∗ ⌜ Zeven n ⌝.
 
   (** * main body of the proof *)
   (* [inv N P] was written as a box around [P] (with no name [N]) in the
